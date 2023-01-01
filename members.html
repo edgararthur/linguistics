@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="css/index.css">
-    lin
-    <title>Document</title>
+    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="./js/index.js" defer></script>
+    <title>Membership Directory</title>
 </head>
 <body>
     <div class="container">
@@ -26,30 +26,57 @@
                     </div>
                     <!-- Add the Font Awesome bars icon -->
                     <i class="fas fa-bars"></i>
-                    <i class="fas fa-close"></i>
+                    
                     <div class="links">
+                        <i class="fas fa-close"></i>
                         <a href="index.html">Home</a>
-                        <a href="leadership.html">Leadership</a>
-                        <p class="members">Membership <span><i class="fa-solid fa-caret-down"></i></span></p>
-                        <a href="published.html">Publications</a>
-                        <p class="events">Events <span><i class="fa-solid fa-caret-down"></i></span></p>
-                        <a href="news.html">News</a>
+                        <a href="about.html">About Us</a>
+                        <a href="leadership.html">
+                            Leadership
+                        </a>
+                        <a class="members">
+                            Membership 
+                            <span><i class="fa-solid fa-caret-down"></i></span>
+                        </a>
+                        <a href="published.html">
+                            Publications
+                        </a>
+                        <a class="events">
+                            Events 
+                            <span><i class="fa-solid fa-caret-down"></i></span>
+                        </a>
+                        <a href="services.html" class="services__collab" >
+                            Collaborations & Services
+                        </a>
                     </div>
                     <div class="join">
-                        <input type="submit" value="Contact" />
+                        <!-- <a type="submit" value="Contact" /> -->
+                        <a href="contact.html">Contact</a>
                     </div>
                 </nav>
             </header>
-            <div class="membership__card">
-                <div class="workers">
-                    <a href="workers.html">Professionals</a>
+            <!-- === event dropdown === -->
+            <div class="event__card">
+                <div class="confern">
+                    <a href="conference.html">Conferences</a>
                 </div>
-                <div class="student">
-                    <a href="student.html">Students</a>
+                <div class="workshop">
+                    <a href="workshop.html">Workshops</a>
                 </div>
             </div>
-            <div class="professionals">
-                <h3>Professionals</h3>
+            <!-- === end event dropdown === -->
+            <div class="membership__card">
+                <div class="workers">
+                    <a href="workers.html">Membership Category</a>
+                </div>
+                <div class="student">
+                    <a href="members.html">Membership Directory</a>
+                </div>
+            </div>
+            <div class="leadership">
+                <div class="head">
+                    <h1>Membership Directory</h1>
+                </div>
             </div>
         </div>
     </div>
