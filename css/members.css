@@ -1,0 +1,15 @@
+.head {
+    height: 100%;
+    width: 100%;
+    padding: 32px 69px;
+    display: flex;
+    align-items: center;
+    background: #5c9c5c;
+}
+
+.leadership .head h1 {
+    width: 100%;
+    text-align: center;
+    color: #f6f6f6;
+    font-size: 21px;
+}
