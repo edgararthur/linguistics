@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;500;600&family=Poppins&display=swap");
+
+:root {
+    --bg-primary: #ffffff;
+    --bg-second: #f8f8f8;
+    --color-primary: #808080;
+    --color-sec: #047aeb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+.container {
+    /* padding: 0 32px; */
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 17px 45px;
+    height: 63px;
+    box-shadow: rgba(86, 88, 89, 0.605) 0px 7px 25px;
+}
+
+.logo h3 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.logo h3 span {
+    color: var(--color-sec);
+}
+
+.links {
+    display: flex;
+    align-items: center;
+}
+
+.links a {
+    padding: 0 10px;
+    color: var(--color-sec);
+}
+
+.join {
+    display: flex;
+    align-items: center;
+}
+
+.join input {
+    width: 105px;
+    height: 38px;
+    border-radius: 5px;
+    border: 1px solid var(--color-sec);
+    color: var(--color-sec);
+    background: transparent;
+    font-size: 15px;
+}
+
+.join input:hover {
+    background: var(--color-sec);
+    color: #ffffff;
+}
+
+.hero {
+    background: var(--color-sec);
+    height: 100%;
+}
+
+.desc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 550px;
+}
+
+.hero h1 {
+    width: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 45px;
+    color: #ffffff;
+}
+
+.who {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 17px 69px;
+}
+
+.who_we_are {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 32px;
+}
+
+.who_we_are .desc__title h2 {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.who__images {
+    width: 50%;
+    background: green;
+}
