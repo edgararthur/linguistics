@@ -28,6 +28,16 @@ body {
     box-shadow: rgba(86, 88, 89, 0.605) 0px 7px 25px;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 66px;
+    height: 46px;
+}
+
 .logo h3 {
     font-size: 20px;
     font-weight: 600;
@@ -104,12 +114,15 @@ body {
     padding: 0 32px;
 }
 
-.who_we_are .desc__title h2 {
-    font-size: 22px;
-    font-weight: bold;
+.who_we_are .desc__title h1 {
+    font-size: 32px;
+    font-weight: bolder;
+    padding: 13px 0;
 }
 
 .who__images {
     width: 50%;
     background: green;
 }
+
+.image;
