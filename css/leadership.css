@@ -1,0 +1,137 @@
+body {
+    font-family: "Poppins", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
+    /* font-smoothing: antialiased; */
+}
+
+.links p {
+    padding: 0 10px;
+    font-size: 14.2px;
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
+.leadership {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.event__card a {
+    text-align: center;
+    font-size: 14.2px;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.confern {
+    height: 50%;
+}
+
+.workshop {
+    height: 50%;
+}
+
+.head {
+    height: 100%;
+    width: 100%;
+    padding: 32px 69px;
+    display: flex;
+    align-items: center;
+    background: #5c9c5c;
+}
+
+.leadership .head h1 {
+    width: 100%;
+    text-align: center;
+    color: #f6f6f6;
+    font-size: 21px;
+}
+
+.leadership .pream {
+    padding: 27px 69px 21px 69px;
+}
+
+.curr {
+    padding: 0 0 22px 0;
+    text-align: center;
+}
+
+.leadership .pream h3 {
+    color: #2a2a2a;
+    font-size: 18.5px;
+}
+
+.curr h2 {
+    text-decoration: underline;
+}
+
+.leadership .pream p {
+    color: #2a2a2a;
+}
+
+.leadership .pream p span {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.cardo {
+    width: 279px;
+    height: 367px;
+    box-shadow: rgba(86, 88, 89, 0.3) 0px 7px 25px;
+    border-radius: 6px;
+    margin: 8px 18px;
+}
+
+.cardo:hover {
+    transform: translateY();
+}
+
+.exec {
+    /* padding: 15px 0 19px 0; */
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.prez {
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+}
+
+.prez h3 {
+    font-size: 15px;
+    padding: 13px 0 10px 0;
+    color: #2a2a2a;
+}
+
+.prez img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.prez h4 {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 0;
+}
+
+.prez p {
+    font-size: 13px;
+    font-weight: 500;
+    color: #2a2a2a;
+}
+
+.prez .icons i {
+    padding: 0 5px;
+    color: #5c9c5c;
+}
+
+.exec__image {
+    padding: 12px 0 18px 0;
+    display: flex;
+    align-items: center;
+}
