@@ -22,3 +22,23 @@ fetch('https://restcountries.com/v3.1/all')
     })
 });
 
+// script.js
+const imageContainer = document.querySelector('.image-container');
+const imageUrls = [
+    'image1.jpg',
+    'image2.jpg',
+    'image3.jpg'
+];
+
+let currentIndex = 0;
+
+function changeBackgroundImage() {
+    currentIndex = (currentIndex + 1) % imageUrls.length;
+    imageContainer.style.backgroundImage = `url('${imageUrls[currentIndex]}')`;
+}
+
+// Initial background image
+changeBackgroundImage();
+setInterval(changeBackgroundImage, 5000); // Change background every 5 seconds
+
+
