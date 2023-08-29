@@ -164,7 +164,7 @@ body {
     background-size: cover;
     height: 620px;
     z-index: 0;
-	transition: background-image 0.5s ease-in-out;
+transition: 0.8s ease-in-out;
 }
 
 .hero::before {
