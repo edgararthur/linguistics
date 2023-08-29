@@ -78,8 +78,8 @@ body {
 }
 
 .cardo {
-    width: 279px;
-    height: 367px;
+    width: 260px;
+    height: 100%;
     box-shadow: rgba(86, 88, 89, 0.3) 0px 7px 25px;
     border-radius: 6px;
     margin: 8px 18px;
