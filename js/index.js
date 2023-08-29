@@ -23,11 +23,10 @@ fetch('https://restcountries.com/v3.1/all')
 });
 
 // script.js
-const imageContainer = document.querySelector('.image-container');
+const imageContainer = document.querySelector('.hero');
 const imageUrls = [
-    'image1.jpg',
-    'image2.jpg',
-    'image3.jpg'
+    'images/lag.JPG',
+    'images/LAG_2023.jpg',
 ];
 
 let currentIndex = 0;
