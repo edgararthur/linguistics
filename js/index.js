@@ -30,10 +30,22 @@ const imageUrls = [
 ];
 
 let currentIndex = 0;
+let backgroundPosition = 0;
 
 function changeBackgroundImage() {
     currentIndex = (currentIndex + 1) % imageUrls.length;
     imageContainer.style.backgroundImage = `url('${imageUrls[currentIndex]}')`;
+
+    backgroundPosition = 100;
+    imageContainer.style.backgroundPosition = `0% ${backgroundPosition}%`;
+
+    const interval = setInterval(() => {
+        backgroundPosition--;
+        imageContainer.style.backgroundPosition = `0% ${backgroundPosition}%`;
+        if (backgroundPosition === 0) {
+            clearInterval(interval);
+        }
+    }, 50);
 }
 
 // Initial background image
