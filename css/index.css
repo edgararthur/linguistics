@@ -565,6 +565,10 @@ body {
         color: #2a2a2a;
     }
 
+    .fa-close {
+        display: none;
+    }
+
     .join {
         display: none;
     }
