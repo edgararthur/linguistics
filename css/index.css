@@ -33,6 +33,10 @@ body {
     box-shadow: rgba(86, 88, 89, 0.2) 0px 7px 25px;
 }
 
+.fa-close {
+    display: none;
+}
+
 .logo {
     display: flex;
     align-items: center;
