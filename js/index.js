@@ -1,24 +1,26 @@
 const members = document.querySelector('.members');
 const events = document.querySelector('.events')
 const option = document.createElement("option");
+
 option.classList.add("custom-option");
 const customCountryCodeSelect = document.getElementById("country-code");
 
-// members.addEventListener('click', e => {
-//     document.querySelector(".event__card").classList.toggle('visibility')
-// })
-
 events.addEventListener('click', e => {
+    console.log("hello world")
     document.querySelector(".event__card").classList.toggle('visibility')
+})
+
+members.addEventListener('click', (e) => {
+    document.querySelector(".membership__card").classList.toggle('visibility')
+    console.log("hello world")
 })
 
 fetch('https://restcountries.com/v3.1/all')
 .then(response => response.json())
 .then(data => {
-    data.map(country => {
-        console.log(country)
-        option.innerHTML = `<p style="{width: 100%}">+${country.ccn3}</p>`
-        customCountryCodeSelect.append(option);
+    data.forEach(country => {
+        option.innerHTML = `<p style="{width: 100%}">+${country}</p>`
+        customCountryCodeSelect.appendChild(option);
     })
 });
 
@@ -46,10 +48,21 @@ function changeBackgroundImage() {
             clearInterval(interval);
         }
     }, 50);
+
+    // imageContainer.classList.add("")
 }
 
 // Initial background image
 changeBackgroundImage();
-setInterval(changeBackgroundImage, 7000); // Change background every 5 seconds
+setInterval(changeBackgroundImage, 7000);
 
+const links = document.querySelector('a');
+links.addEventListener('click', (e) => {
+    console.log("hello world")
+})
+
+const bar = document.querySelector('.fa-bars');
+bar.addEventListener('click', (e) => {
+    document.querySelector('links').classList.toggle('links__visibility');
+})
 

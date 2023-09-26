@@ -141,3 +141,89 @@ body {
     display: flex;
     align-items: center;
 }
+
+@media (max-width: 600px) {
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* .card {
+        max-width: 100%;
+    } */
+
+    .navbar {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .logo {
+        text-align: center;
+        /* padding: 0 13px; */
+    }
+
+    .logo img {
+        width: 80px; 
+        height: auto;
+    }
+
+    .logo h3 {
+        display: none;
+    }
+
+    .links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-top: 160px;
+        width: 255px;
+        color: #f6f6f6;
+        position: absolute;
+        top: -97px;
+        right: 0px;
+        background: rgba(44, 44, 44, 0.701);
+        height: 133vh;
+        z-index: 99px;
+        display: none;
+    }
+
+    .links__visibility {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .links a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 20px;
+        padding: 18px 0;
+    }
+
+    .links p {
+        color: #ffffff;
+        text-decoration: none;
+        margin: 10px 0;
+        font-size: 20px;
+        padding: 18px 0;
+    }
+
+    .navbar.show .links {
+        display: flex;
+    }
+
+    .fa-bars {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0 13px;
+        color: #2a2a2a;
+    }
+
+    .join {
+        display: none;
+    }
+}
