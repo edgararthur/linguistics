@@ -541,7 +541,7 @@ body {
         top: -160px;
         right: 0px;
         background: rgba(34, 34, 34, 0.867);
-        height: 133vh;
+        height: 81vh;
         z-index: 99px;
         display: none;
     }
@@ -617,12 +617,11 @@ body {
         display: flex;
         flex-direction: column;
         width: 100%;
-        padding: 0;
-        margin: 0;
+        padding: 62px 14px;
     }
 
     .mission, .vision, .history {
-        /* flex-basis: 100%; */
+        flex-basis: 100%;
         width: 100%;
     }
 
