@@ -535,11 +535,12 @@ body {
         text-align: center;
         margin-top: 160px;
         width: 255px;
-        color: #f6f6f6;
+        color: #ffffff;
         position: absolute;
-        top: -97px;
+        /* padding: 45px 0 0 0; */
+        top: -160px;
         right: 0px;
-        background: rgba(44, 44, 44, 0.701);
+        background: rgba(34, 34, 34, 0.867);
         height: 133vh;
         z-index: 99px;
         display: none;
@@ -578,10 +579,12 @@ body {
     }
 
     .navbar .fa-close {
+        padding: 24px 0;
+        margin-left: 119px;
         display: none;
         font-size: 24px;
         cursor: pointer;
-        color: #2a2a2a;
+        color: #ffffff;
     }
 
     .join {
@@ -614,10 +617,12 @@ body {
         display: flex;
         flex-direction: column;
         width: 100%;
+        padding: 0;
+        margin: 0;
     }
 
     .mission, .vision, .history {
-        flex-basis: 100%;
+        /* flex-basis: 100%; */
         width: 100%;
     }
 
