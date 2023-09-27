@@ -70,5 +70,9 @@ bar.addEventListener('click', (e) => {
     close.style.display = 'block'
 })
 
-
+close.addEventListener('click', (e) => {
+    document.querySelector('.links').classList.remove('links__visibility');
+    bar.style.display = 'block';
+    close.style.display = 'none'
+})
 
