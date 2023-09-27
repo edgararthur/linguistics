@@ -493,11 +493,11 @@ body {
 /* === mobile view === */
 /* Mobile View Styles (Max-width: 768px) */
 @media (max-width: 600px) {
-    .container {
+    /* .container {
         display: flex;
         align-items: center;
         justify-content: center;
-    }
+    } */
 
     /* .card {
         max-width: 100%;
@@ -507,7 +507,7 @@ body {
         display: flex;
         align-items: center;
         width: 100%;
-        max-width: 600px;
+        /* max-width: 600px; */
     }
 
     .navbar .fa-bars {
@@ -540,10 +540,10 @@ body {
         /* padding: 45px 0 0 0; */
         top: -160px;
         right: 0px;
-        background: rgba(34, 34, 34, 0.867);
-        height: 81vh;
-        z-index: 99px;
+        background: rgb(34, 34, 34);
+        height: 155vh;
         display: none;
+        z-index: 99;
     }
 
     .links__visibility {

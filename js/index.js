@@ -76,3 +76,7 @@ close.addEventListener('click', (e) => {
     close.style.display = 'none'
 })
 
+document.querySelector('a').addEventListener('click', e => {
+    console.log('hello');
+})
+
