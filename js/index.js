@@ -20,7 +20,7 @@ fetch('https://restcountries.com/v3.1/all')
 .then(data => {
     data.forEach(country => {
         option.innerHTML = `<p style="{width: 100%}">+${country}</p>`
-        customCountryCodeSelect.appendChild(option);
+        // customCountryCodeSelect.appendChild(option);
     })
 });
 
@@ -62,7 +62,13 @@ links.addEventListener('click', (e) => {
 })
 
 const bar = document.querySelector('.fa-bars');
+const close = document.querySelector('.fa-close')
+
 bar.addEventListener('click', (e) => {
-    document.querySelector('links').classList.toggle('links__visibility');
+    document.querySelector('.links').classList.add('links__visibility');
+    bar.style.display = 'none';
+    close.style.display = 'block'
 })
+
+
 

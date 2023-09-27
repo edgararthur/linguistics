@@ -33,7 +33,11 @@ body {
     box-shadow: rgba(86, 88, 89, 0.2) 0px 7px 25px;
 }
 
-.fa-close {
+.navbar .fa-bars {
+    display: none;
+}
+
+.navbar .fa-close {
     display: none;
 }
 
@@ -506,6 +510,10 @@ body {
         max-width: 600px;
     }
 
+    .navbar .fa-bars {
+        display: block;
+    }
+
     .logo {
         text-align: center;
         /* padding: 0 13px; */
@@ -561,7 +569,7 @@ body {
         display: flex;
     }
 
-    .fa-bars {
+    .navbar .fa-bars {
         display: block;
         font-size: 24px;
         cursor: pointer;
@@ -569,8 +577,11 @@ body {
         color: #2a2a2a;
     }
 
-    .fa-close {
+    .navbar .fa-close {
         display: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #2a2a2a;
     }
 
     .join {
