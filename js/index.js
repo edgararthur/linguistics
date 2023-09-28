@@ -25,7 +25,7 @@ fetch('https://restcountries.com/v3.1/all')
 });
 
 // script.js
-const imageContainer = document.querySelector('.hero');
+const imageContainer = document.querySelector('.desc');
 const imageUrls = [
     'images/lag.JPG',
     'images/LAG_2023.jpg',
@@ -54,7 +54,7 @@ function changeBackgroundImage() {
 
 // Initial background image
 changeBackgroundImage();
-setInterval(changeBackgroundImage, 7000);
+setInterval(changeBackgroundImage, 8000);
 
 const links = document.querySelector('a');
 links.addEventListener('click', (e) => {
@@ -62,7 +62,7 @@ links.addEventListener('click', (e) => {
 })
 
 const bar = document.querySelector('.fa-bars');
-const close = document.querySelector('.fa-close')
+const closeBtn = document.querySelector('.fa-close')
 
 bar.addEventListener('click', (e) => {
     document.querySelector('.links').classList.add('links__visibility');
@@ -70,7 +70,7 @@ bar.addEventListener('click', (e) => {
     close.style.display = 'block'
 })
 
-close.addEventListener('click', (e) => {
+closeBtn.addEventListener('click', (e) => {
     document.querySelector('.links').classList.remove('links__visibility');
     bar.style.display = 'block';
     close.style.display = 'none'
@@ -78,5 +78,9 @@ close.addEventListener('click', (e) => {
 
 document.querySelector('a').addEventListener('click', e => {
     console.log('hello');
+})
+
+document.querySelector('.services__collab').addEventListener('click', e => {
+    document.querySelector('.services__card').classList.toggle('services__vis')
 })
 
