@@ -100,27 +100,31 @@ body {
 .past__commitee {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     margin: 0 86px;
 }
 
 .past__commitee h4 {
-    font-size: 14px;
+    font-size: 13px;
     width: auto;
+    color: #454545;
 }
 
 .past__commitee h3 {
-    font-size: 14px;
+    font-size: 12px;
     width: auto;
+    color: #3a3a3a;
+    font-weight: 550;
 }
 
 .card__exec {
     width: auto;
-    height: 84px;
+    height: 100%;
     box-shadow: rgba(116, 116, 116, 0.259) 0px 7px 25px;
     border-radius: 6px;
     margin: 8px 18px;
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
+    /* grid-template-rows: repeat(3, 1fr); */
     align-items: center;
     justify-items: center;
     padding: 12px;

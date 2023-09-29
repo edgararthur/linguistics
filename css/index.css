@@ -573,7 +573,8 @@ body {
         background: rgb(34, 34, 34);
         height: 155vh;
         display: none;
-        z-index: 99;
+        z-index: 2;
+        pointer-events: visible;
     }
 
     .links__visibility {
