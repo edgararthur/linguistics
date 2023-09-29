@@ -67,13 +67,13 @@ const closeBtn = document.querySelector('.fa-close')
 bar.addEventListener('click', (e) => {
     document.querySelector('.links').classList.add('links__visibility');
     bar.style.display = 'none';
-    close.style.display = 'block'
+    closeBtn.style.display = 'block'
 })
 
 closeBtn.addEventListener('click', (e) => {
     document.querySelector('.links').classList.remove('links__visibility');
     bar.style.display = 'block';
-    close.style.display = 'none'
+    closeBtn.style.display = 'none'
 })
 
 document.querySelector('a').addEventListener('click', e => {

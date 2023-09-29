@@ -52,7 +52,7 @@ body {
 }
 
 .logo h3 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     color: #2a2a2a;
 }
@@ -85,7 +85,10 @@ body {
     align-items: center;
 }
 
-.join input {
+.join a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 105px;
     height: 38px;
     border-radius: 5px;
@@ -94,9 +97,10 @@ body {
     background: transparent;
     font-size: 15px;
     cursor: pointer;
+    text-align: center;
 }
 
-.join input:hover {
+.join a:hover {
     background: #5c9c5c;
     color: #ffffff;
 }
@@ -487,7 +491,7 @@ body {
 }
 
 .message textarea {
-    width: 47%;
+    width: 43%;
     outline: none;
     border: 1px solid #4c4c4c;
     border-radius: 4px;
