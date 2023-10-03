@@ -97,7 +97,6 @@ body {
     background: transparent;
     font-size: 15px;
     cursor: pointer;
-    text-align: center;
 }
 
 .join a:hover {
@@ -343,181 +342,58 @@ body {
     color: #2a2a2a;
 }
 
-.contact {
+.news {
     width: 100%;
     display: flex;
     align-items: center;
     background: #f5f6fa;
-    padding: 0px 0px 0 69px;
+    padding: 18px 69px;
 }
 
-.headings {
-    padding: 0 0 0 23px;
-}
-
-.form {
-    width: 100%;
-    padding: 55px 0px;
-}
-
-.names {
-    width: 100%;
-    display: flex;
-    padding: 15px 25px 0 25px; 
-}
-
-.names input {
-    width: 245px;
-    min-height: 35px;
-    padding: 3px;
-    outline: none;
-    border: 1px solid #868686;
-    font-weight: 550;
-    border-radius: 4px;
-}
-
-.first__name {
-    padding: 0 37px 0 0;
-}
-
-.first__name h3 {
-    font-size: 14px;
-    color: #4c4c4c;
-    font-weight: 500;
-    padding-bottom: 5px;
-}
-
-.last__name {
-    padding: 0 37px 0 0;
-}
-
-.last__name h3 {
-    font-size: 14px;
-    color: #4c4c4c;
-    font-weight: 500;
-    padding-bottom: 5px;
-}
-
-.credent {
-    width: 100%;
-    display: flex;
-    padding: 15px 25px 0 25px; 
-}
-
-.credent input {
-    width: 245px;
-    min-height: 35px;
-    padding: 3px;
-    outline: none;
-    border: 1px solid #868686;
-    border-radius: 4px;
-}
-
-.email__us {
-    padding: 0 37px 0 0;
-}
-
-.email__us h3 {
-    font-size: 14px;
-    color: #4c4c4c;
-    font-weight: 500;
-    padding-bottom: 5px;
-}
-
-.phone__number {
-    padding: 0 37px 0 0;
-}
-
-.phone__number input {
-    width: 245px;
-}
-
-.phone__number h3 {
-    font-size: 14px;
-    color: #4c4c4c;
-    font-weight: 500;
-    padding-bottom: 5px;
-}
-
-.drop {
+.news .news__list .head {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
-.drop select {
-    width: 45px;
-    min-height: 35px;
-    border: 1px solid #4c4c4c;
-    border-top-left-radius: 4px;
-    outline: none;
-    border-bottom-left-radius: 4px;
-    font-weight: 500;
-    border-right: none;
+.news .news__list .head h1 {
+    text-align: center;
+    color: #2a2a2a;
+    padding: 12px 0;
 }
 
-/* Your existing styles */
-.flag {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 10px;
+.news .news__list .news__item {
+    border: 1px solid #dadada;
 }
 
-.custom-option {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    cursor: pointer;
-}
-
-.contact__image {
-    width: 100%;
-    height: auto;
-}
-
-.contact__image img {
+.news__item img {
     width: 100%;
 }
 
-.message h3 {
+.news__item h3 {
+    color: #393939;
     font-size: 14px;
-    color: #4c4c4c;
-    font-weight: 500;
-    padding-bottom: 5px;
-}
-
-.message {
-    width: 100%;
-    padding: 15px 88px 0 25px;
-}
-
-.message textarea {
-    width: 43%;
-    outline: none;
-    border: 1px solid #4c4c4c;
-    border-radius: 4px;
-    padding: 5px;
-}
-
-.submit {
-    padding: 15px 25px 0 25px;
-}
-
-.submit input {
-    width: 150px;
-    min-height: 35px;
-    outline: none;
-    border-radius: 4px;
-    background: #5c9c5c;
-    font-family: 'Nunito', sans-serif;
-    border: none;
-    cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
+    text-align: center;
 }
 
 .footer {
     background: #5c9c5c;
     width: 100%;
-    height: auto;
+    margin: 0 auto;
+}
+
+.footer .side__links {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    padding: 15px 69px;
+}
+
+.footer .side__links a {
+    padding: 3px 12px;
+    text-decoration: none;
+    color: #ffffff;
 }
 
 /* === mobile view === */
