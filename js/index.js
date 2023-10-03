@@ -6,13 +6,11 @@ option.classList.add("custom-option");
 const customCountryCodeSelect = document.getElementById("country-code");
 
 events.addEventListener('click', e => {
-    console.log("hello world")
     document.querySelector(".event__card").classList.toggle('visibility')
 })
 
 members.addEventListener('click', (e) => {
     document.querySelector(".membership__card").classList.toggle('visibility')
-    console.log("hello world")
 })
 
 fetch('https://restcountries.com/v3.1/all')
@@ -20,7 +18,6 @@ fetch('https://restcountries.com/v3.1/all')
 .then(data => {
     data.forEach(country => {
         option.innerHTML = `<p style="{width: 100%}">+${country}</p>`
-        // customCountryCodeSelect.appendChild(option);
     })
 });
 
