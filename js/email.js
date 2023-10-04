@@ -1,3 +1,22 @@
+const bar = document.querySelector('.fa-bars');
+const close = document.querySelector('.fa-close')
+
+bar.addEventListener('click', (e) => {
+    document.querySelector('.links').classList.add('links__visibility');
+    bar.style.display = 'none';
+    close.style.display = 'block'
+})
+
+close.addEventListener('click', (e) => {
+    document.querySelector('.links').classList.remove('links__visibility');
+    bar.style.display = 'block';
+    close.style.display = 'none'
+})
+
+document.querySelector('a').addEventListener('click', e => {
+    console.log('hello');
+})
+
 const client_id = ""
 const api_key = ""
 
@@ -13,13 +32,18 @@ form.addEventListener('submit', (e) => {
     const email = form.elements["email"].value;
     const message = form.elements["message"].value;
 
-    // Now, you can work with the form data as needed
-    // console.log(name, email, message);
+    sendEmail(name, email, message);
 })
 
 const handleSignIn = () => {
     gapi.load('client:auth2', initClient);
 }
+
+// {
+//   "enableAutoReply": false,
+//   "responseSubject": "",
+//   "restrictToContacts": false
+// }
 
 const initClient = () => {
     gapi.client.init({
@@ -36,19 +60,19 @@ const initClient = () => {
 }
 
 // Function to send an email using the Gmail API
-function sendEmail(formData) {
+function sendEmail(userName, userEmail, userMessage) {
     const message = {
-        to: 'recipient@example.com',
-        subject: 'Your Subject',
-        message: 'Your message content',
+        to: `${fromAddress}`,
+        subject: `Message from LAG Website. ${userName}`,
+        message: `${userMessage}`,
     };
 
     const fromAddress = 'bysschearthur123@gmail.com';
   
     gapi.client.gmail.users.messages.send({
-        userId: 'test@gmail.com',
+        userId: 'me',
         resource: {
-            raw: btoa(createEmail(message)),
+            raw: btoa(createEmail(message, userEmail)),
         },
     }).then((response) => {
         console.log(response);
@@ -56,7 +80,7 @@ function sendEmail(formData) {
 }
   
 // Function to create a properly formatted email message
-const createEmail = (message) => {
+const createEmail = (message, fromAddress) => {
     const emailContent = [
         `From: ${fromAddress}`
         `To: ${message.to}`,
