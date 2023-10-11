@@ -31,6 +31,7 @@ const handleEmail = (senderName, senderEmail, messageReceived) => {
 	Email.send({
 		Host: "smtp.gmail.com",
 		Username: "Edward Arthur",
+		Password: "breakfast@9",
 		To: "bysschearthur123@gmail.com",
 		From: senderEmail,
 		Subject: "Message from LAG official Website",
