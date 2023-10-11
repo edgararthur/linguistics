@@ -1,4 +1,4 @@
-import { hideClientId, hideApiId, hideFromAddress } from '../config.js';
+// import { hideClientId, hideApiId, hideFromAddress } from '../config.js';
 
 const bar = document.querySelector('.fa-bars');
 const close = document.querySelector('.fa-close')
