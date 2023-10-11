@@ -49,6 +49,7 @@ form.addEventListener('submit', (e) => {
 		const message = form.elements["message"].value;
 
 		// sendEmail(name, email, message);
+		handleEmail(name, email, message)
 })
 
 const handleSignIn = () => {
