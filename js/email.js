@@ -52,6 +52,7 @@ form.addEventListener('submit', (e) => {
 
 	// sendEmail(name, email, message);
 	handleEmail(name, email, message)
+	form.reset();
 })
 
 const handleSignIn = () => {
