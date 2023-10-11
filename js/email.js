@@ -47,6 +47,7 @@ form.addEventListener('submit', (e) => {
 // Access form data and store it in variables
 	const name = form.elements["username"].value;
 	const email = form.elements["email"].value;
+	console.log(email)
 	const message = form.elements["message"].value;
 
 	// sendEmail(name, email, message);
