@@ -41,19 +41,19 @@ const handleEmail = (senderName, senderEmail, messageReceived) => {
 }
 
 form.addEventListener('submit', (e) => {
-		e.preventDefault();
+	e.preventDefault();
 
-	// Access form data and store it in variables
-		const name = form.elements["username"].value;
-		const email = form.elements["email"].value;
-		const message = form.elements["message"].value;
+// Access form data and store it in variables
+	const name = form.elements["username"].value;
+	const email = form.elements["email"].value;
+	const message = form.elements["message"].value;
 
-		// sendEmail(name, email, message);
-		handleEmail(name, email, message)
+	// sendEmail(name, email, message);
+	handleEmail(name, email, message)
 })
 
 const handleSignIn = () => {
-		gapi.load('client:auth2', initClient);
+	gapi.load('client:auth2', initClient);
 }
 
 // {
@@ -65,28 +65,28 @@ const handleSignIn = () => {
 // Function to send an email using the Gmail API
 // Function to send an email using the Gmail API
 async function sendEmail(userName, userEmail, userMessage) {
-		try {
-				// Ensure the Gmail API is loaded and initialized
-				await initClient();
-		
-				const message = {
-						to: hideFromAddress,
-						subject: `Message from LAG Website. ${userName}`,
-						message: `${userMessage}`,
-				};
-		
-				// Send the email
-				const response = await gapi.client.gmail.users.messages.send({
-						userId: 'me',
-						resource: {
-						raw: btoa(createEmail(message, userEmail)),
-						},
-				});
-		
-				console.log(response);
-		} catch (error) {
-				console.error('Error sending email:', error);
-		}
+	try {
+			// Ensure the Gmail API is loaded and initialized
+			await initClient();
+	
+			const message = {
+					to: hideFromAddress,
+					subject: `Message from LAG Website. ${userName}`,
+					message: `${userMessage}`,
+			};
+	
+			// Send the email
+			const response = await gapi.client.gmail.users.messages.send({
+					userId: 'me',
+					resource: {
+					raw: btoa(createEmail(message, userEmail)),
+					},
+			});
+	
+			console.log(response);
+	} catch (error) {
+			console.error('Error sending email:', error);
+	}
 }
 	
 
