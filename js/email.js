@@ -55,9 +55,9 @@ form.addEventListener('submit', (e) => {
 	form.reset();
 })
 
-const handleSignIn = () => {
-	gapi.load('client:auth2', initClient);
-}
+// const handleSignIn = () => {
+// 	gapi.load('client:auth2', initClient);
+// }
 
 // {
 //   "enableAutoReply": false,
@@ -67,71 +67,71 @@ const handleSignIn = () => {
 
 // Function to send an email using the Gmail API
 // Function to send an email using the Gmail API
-async function sendEmail(userName, userEmail, userMessage) {
-	try {
-			// Ensure the Gmail API is loaded and initialized
-			await initClient();
+// async function sendEmail(userName, userEmail, userMessage) {
+// 	try {
+// 			// Ensure the Gmail API is loaded and initialized
+// 			await initClient();
 	
-			const message = {
-					to: hideFromAddress,
-					subject: `Message from LAG Website. ${userName}`,
-					message: `${userMessage}`,
-			};
+// 			const message = {
+// 					to: hideFromAddress,
+// 					subject: `Message from LAG Website. ${userName}`,
+// 					message: `${userMessage}`,
+// 			};
 	
-			// Send the email
-			const response = await gapi.client.gmail.users.messages.send({
-					userId: 'me',
-					resource: {
-					raw: btoa(createEmail(message, userEmail)),
-					},
-			});
+// 			// Send the email
+// 			const response = await gapi.client.gmail.users.messages.send({
+// 					userId: 'me',
+// 					resource: {
+// 					raw: btoa(createEmail(message, userEmail)),
+// 					},
+// 			});
 	
-			console.log(response);
-	} catch (error) {
-			console.error('Error sending email:', error);
-	}
-}
+// 			console.log(response);
+// 	} catch (error) {
+// 			console.error('Error sending email:', error);
+// 	}
+// }
 	
 
 // Function to create a properly formatted email message
-function createEmail(message, fromAddress) {
-		const emailContent = [
-			`From: ${fromAddress}`,
-			`To: ${message.to}`,
-			'Content-Type: text/plain; charset="UTF-8"',
-			'MIME-Version: 1.0',
-			`Subject: ${message.subject}`,
-			'',
-			message.message,
-		].join('\n');
-		return emailContent;
-}
+// function createEmail(message, fromAddress) {
+// 		const emailContent = [
+// 			`From: ${fromAddress}`,
+// 			`To: ${message.to}`,
+// 			'Content-Type: text/plain; charset="UTF-8"',
+// 			'MIME-Version: 1.0',
+// 			`Subject: ${message.subject}`,
+// 			'',
+// 			message.message,
+// 		].join('\n');
+// 		return emailContent;
+// }
 	
 	// Initialize the Gmail API client
-async function initClient() {
-	try {
-		// Load the Google API Client Library
-		await new Promise((resolve) => gapi.load('client:auth2', resolve));
+// async function initClient() {
+// 	try {
+// 		// Load the Google API Client Library
+// 		await new Promise((resolve) => gapi.load('client:auth2', resolve));
 
-		// Initialize the client library and set up the API key, clientId, etc.
-		await gapi.client.init({
-			apiKey: hideApiId,
-			clientId: hideClientId,
-			discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
-			scope: 'https://www.googleapis.com/auth/gmail.send',
-		});
+// 		// Initialize the client library and set up the API key, clientId, etc.
+// 		await gapi.client.init({
+// 			apiKey: hideApiId,
+// 			clientId: hideClientId,
+// 			discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
+// 			scope: 'https://www.googleapis.com/auth/gmail.send',
+// 		});
 
-		// Listen for sign-in state changes
-		gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+// 		// Listen for sign-in state changes
+// 		gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
-		// Handle the initial sign-in state
-		updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-	} catch (error) {
-		console.error('Error initializing Gmail API client:', error);
-	}
-}
+// 		// Handle the initial sign-in state
+// 		updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+// 	} catch (error) {
+// 		console.error('Error initializing Gmail API client:', error);
+// 	}
+// }
 	
 	// Function to handle sign-in status changes
-function updateSigninStatus(isSignedIn) {
-	// Handle sign-in status changes if needed
-}
+// function updateSigninStatus(isSignedIn) {
+// 	// Handle sign-in status changes if needed
+// }
