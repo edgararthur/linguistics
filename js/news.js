@@ -39,9 +39,10 @@ closeBtn.addEventListener('click', () => {
 const collabHead = document.createElement('div')
 const collabItem = document.querySelector('.collab__item');
 
-fetch('http://127.0.0.1:8000/api/collaborations/')
+fetch('https://linguisticsghana.azurewebsites.net/api/collaborations/')
 	.then(response => response.json())
 	.then(data => {
+		console.log(data)
 		if (data.length > 0) {
 			data.forEach(element => {
 				const collabHead = document.createElement('div');
