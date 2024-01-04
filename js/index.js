@@ -50,7 +50,6 @@ members.addEventListener('click', () => {
 
 links.forEach(link => {
 	link.addEventListener('click', () => {
-		console.log("hello world");
 	});
 });
 
@@ -75,8 +74,6 @@ fetch('http://127.0.0.1:8000/api/news/')
 	.then(response => response.json())
 	.then(data => {
 		data.forEach(element => {
-			console.log(element)
-
 			const newItem = document.createElement('div');
 			newItem.classList.add('news__item');
 			const image = `<img src="${element.image}" alt=""></img>`
@@ -84,12 +81,8 @@ fetch('http://127.0.0.1:8000/api/news/')
 
 			setTimeout(() => {
 				newItem.innerHTML = image + h3
-				console.log(newItem)
 				news.appendChild(newItem)
 			}, 5000);
-			// newItem.innerHTML = image + h3
-			// console.log(newItem)
-			// news.appendChild(newItem)
 		});
 
 		// Trigger animation when element is added

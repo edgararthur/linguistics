@@ -21,10 +21,6 @@ document.querySelector('a').addEventListener('click', e => {
 
 const form = document.querySelector('form');
 
-// const clientId = hideClientId;
-// const apiId = hideApiId;
-// const fromAddress = hideFromAddress
-
 const scopes = ['https://www.googleapis.com/auth/gmail.send']
 
 const handleEmail = (senderName, senderEmail, messageReceived) => {
@@ -59,38 +55,26 @@ form.addEventListener('submit', (e) => {
 	form.reset();
 })
 
-// const handleSignIn = () => {
-// 	gapi.load('client:auth2', initClient);
-// }
-
-// {
-//   "enableAutoReply": false,
-//   "responseSubject": "",
-//   "restrictToContacts": false
-// }
-
-// Function to send an email using the Gmail API
 // Function to send an email using the Gmail API
 async function sendEmail(userName, userEmail, userMessage) {
 	try {
-			// Ensure the Gmail API is loaded and initialized
-			await initClient();
-	
-			const message = {
-				to: hideFromAddress,
-				subject: `Message from LAG Website. ${userName}`,
-				message: `${userMessage}`,
-			};
-	
-			// Send the email
-			const response = await gapi.client.gmail.users.messages.send({
-				userId: 'me',
-				resource: {
-				raw: btoa(createEmail(message, userEmail)),
-				},
-			});
-	
-			console.log(response);
+		// Ensure the Gmail API is loaded and initialized
+		await initClient();
+		const message = {
+			to: hideFromAddress,
+			subject: `Message from LAG Website. ${userName}`,
+			message: `${userMessage}`,
+		};
+
+		// Send the email
+		const response = await gapi.client.gmail.users.messages.send({
+			userId: 'me',
+			resource: {
+			raw: btoa(createEmail(message, userEmail)),
+			},
+		});
+
+		console.log(response);
 	} catch (error) {
 		console.error('Error sending email:', error);
 	}
