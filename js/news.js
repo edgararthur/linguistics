@@ -6,6 +6,10 @@ const news = document.querySelector('.news__list');
 const links = document.querySelectorAll('a');
 const bar = document.querySelector('.fa-bars');
 const closeBtn = document.querySelector('.fa-close');
+
+const collabHead = document.createElement('div')
+const collabItem = document.querySelector('.collab__item');
+
 const imageUrls = ['images/lag.JPG', 'images/LAG_2023.jpg'];
 let currentIndex = 0;
 
@@ -36,13 +40,9 @@ closeBtn.addEventListener('click', () => {
   closeBtn.style.display = 'none';
 });
 
-const collabHead = document.createElement('div')
-const collabItem = document.querySelector('.collab__item');
-
 fetch('https://linguisticsghana.azurewebsites.net/api/collaborations/')
 	.then(response => response.json())
 	.then(data => {
-		console.log(data)
 		if (data.length > 0) {
 			data.forEach(element => {
 				const collabHead = document.createElement('div');
@@ -69,7 +69,7 @@ fetch('https://linguisticsghana.azurewebsites.net/api/collaborations/')
 		}
 	})
 	.catch(error => {
-		console.error('Error fetching collaborations:', error);
+		return error;
 	});
 
 

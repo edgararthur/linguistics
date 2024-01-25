@@ -70,7 +70,7 @@ changeBackgroundImage();
 setInterval(changeBackgroundImage, 8000);
 
 // Fetch API for News
-fetch('http://127.0.0.1:8000/api/news/')
+fetch('https://linguisticsghana.azurewebsites.net/api/news/')
 	.then(response => response.json())
 	.then(data => {
 		data.forEach(element => {
@@ -84,7 +84,6 @@ fetch('http://127.0.0.1:8000/api/news/')
 				news.appendChild(newItem)
 			}, 5000);
 		});
-
 		// Trigger animation when element is added
 		setTimeout(() => {
 			news.classList.add('slide-in');
