@@ -84,9 +84,8 @@ body {
     height: 320px;
     box-shadow: rgba(86, 88, 89, 0.3) 0px 7px 25px;
     border-radius: 6px;
-    margin: 8px 18px;
+    margin: 10px 12px;
     display: grid;
-    /* grid-template-rows: repeat(3, 1fr); */
     align-items: center;
     justify-items: center;
     color: #3a3a3a;
@@ -137,6 +136,7 @@ body {
 
 .exec {
     /* padding: 15px 0 19px 0; */
+    max-width: 1350px;
     display: flex;
     align-items: center;
     justify-content: space-between;

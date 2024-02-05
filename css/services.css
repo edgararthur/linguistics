@@ -32,6 +32,13 @@
     padding: 12px 0;
 }
 
+.consult__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
 .collabs {
     height: 100%;
 }

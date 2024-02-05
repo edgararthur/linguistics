@@ -10,6 +10,9 @@ const closeBtn = document.querySelector('.fa-close');
 const collabHead = document.createElement('div')
 const collabItem = document.querySelector('.collab__item');
 
+const consultHead = document.createElement('div')
+const consultItem = document.querySelector('.consult__item');
+
 const imageUrls = ['images/lag.JPG', 'images/LAG_2023.jpg'];
 let currentIndex = 0;
 
@@ -29,15 +32,15 @@ links.forEach(link => {
 });
 
 bar.addEventListener('click', () => {
-  document.querySelector('.links').classList.add('links__visibility');
-  bar.style.display = 'none';
-  closeBtn.style.display = 'block';
+	document.querySelector('.links').classList.add('links__visibility');
+	bar.style.display = 'none';
+	closeBtn.style.display = 'block';
 });
 
 closeBtn.addEventListener('click', () => {
-  document.querySelector('.links').classList.remove('links__visibility');
-  bar.style.display = 'block';
-  closeBtn.style.display = 'none';
+	document.querySelector('.links').classList.remove('links__visibility');
+	bar.style.display = 'block';
+	closeBtn.style.display = 'none';
 });
 
 fetch('https://linguisticsghana.azurewebsites.net/api/collaborations/')
@@ -72,7 +75,35 @@ fetch('https://linguisticsghana.azurewebsites.net/api/collaborations/')
 		return error;
 	});
 
+fetch('http://127.0.0.1:8000/api/consultants/')
+	.then(response => response.json())
+	.then(data => {
+		if (data.length > 0) {
+			data.forEach(element => {
+				const consultHead = document.createElement('div');
+				const consultData = `
+					<h2>${element.name}</h2>
+					<p>${element.type_of_consult}</p>
+				`;
+				consultHead.innerHTML = consultData;
+				consultItem.appendChild(consultHead);
 
+				consultHead.classList.add('collab__head')
+			});
+		} else {
+			const consultHead = document.createElement('div');
+			const h3 = `<h3>Sorry, No Consultants Available</h3>`;
+			consultHead.innerHTML = h3;
+			consultItem.appendChild(consultHead);
+
+			consultItem.classList.remove('conllab__item')
+
+			consultItem.classList.remove('collabo__item')
+		}
+	})
+	.catch(error => {
+		return error;
+	});
 
 
 
