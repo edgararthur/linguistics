@@ -43,7 +43,7 @@ closeBtn.addEventListener('click', () => {
 	closeBtn.style.display = 'none';
 });
 
-fetch('https://linguisticsghana.azurewebsites.net/api/collaborations/')
+fetch('http://127.0.0.1:8000//api/collaborations/')
 	.then(response => response.json())
 	.then(data => {
 		if (data.length > 0) {

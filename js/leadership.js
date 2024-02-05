@@ -19,7 +19,7 @@ document.querySelector('a').addEventListener('click', e => {
 
 const positionDiv = document.createElement('div');
 
-fetch('https://linguisticsghana.azurewebsites.net/api/leadership/')
+fetch('http://127.0.0.1:8000/api/leadership/')
 	.then(response => response.json())
 	.then(data => {
 		if (data.length > 0) {
@@ -48,7 +48,7 @@ fetch('https://linguisticsghana.azurewebsites.net/api/leadership/')
 				const elementYear = new Date(element.year).getFullYear();
 				if (elementYear === new Date().getFullYear()) {
 					execDiv.appendChild(positionDiv);
-				} else if (elementYear === new Date().getFullYear() - 1) {
+				} else {
 					const prevYearDiv = document.querySelector(".prev-year");
 					if (!prevYearDiv) {
 						const prevYearContainer = document.createElement("div");
@@ -56,25 +56,12 @@ fetch('https://linguisticsghana.azurewebsites.net/api/leadership/')
 						execDiv.appendChild(prevYearContainer);
 					}
 					document.querySelector(".past__commitee").appendChild(positionDiv);
-				} else {
-					// Check if a container for the past year already exists
-					if (!pastYears.has(elementYear)) {
-						const pastYearContainer = document.createElement("div");
-						pastYearContainer.classList.add("past__year");
-						pastYearContainer.innerHTML = `<h2>Past Executive ${elementYear}</h2>`;
-						pastExecContainer.appendChild(pastYearContainer);
-						pastYears.add(elementYear);
-					}
-
-					// Append the positionDiv to the specific past year container
-					document.querySelector(`.past__year[data-year="${elementYear}"]`).appendChild(positionDiv);
 				}
 			});
 
 			// Append the pastExecContainer to the execDiv
 			execDiv.appendChild(pastExecContainer);
 		}
-		console.log(data);
 	})
 	.catch(error => {
 		console.log(error)
