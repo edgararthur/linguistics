@@ -19,7 +19,7 @@ document.querySelector('a').addEventListener('click', e => {
 
 const positionDiv = document.createElement('div');
 
-fetch('http://127.0.0.1:8000/api/leadership/')
+fetch('linguisticsghana.azurewebsites.net/api/leadership/')
 	.then(response => response.json())
 	.then(data => {
 		if (data.length > 0) {
