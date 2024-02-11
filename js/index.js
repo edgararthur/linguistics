@@ -3,7 +3,7 @@ const members = document.querySelector('.members');
 const events = document.querySelector('.events');
 const customCountryCodeSelect = document.getElementById("country-code");
 const imageContainer = document.querySelector('.desc');
-const news = document.querySelector('.news__list');
+
 const links = document.querySelectorAll('a');
 const bar = document.querySelector('.fa-bars');
 const closeBtn = document.querySelector('.fa-close');
@@ -22,6 +22,8 @@ function changeBackgroundImage() {
 	currentIndex = (currentIndex + 1) % imageUrls.length;
 	imageContainer.style.backgroundImage = `url('${imageUrls[currentIndex]}')`;
 	let backgroundPosition = 100;
+
+	imageContainer.classList.add('slide-in')
 
 	const interval = setInterval(() => {
 		backgroundPosition--;
@@ -69,24 +71,63 @@ closeBtn.addEventListener('click', () => {
 changeBackgroundImage();
 setInterval(changeBackgroundImage, 8000);
 
+const newsListItem = document.querySelector('.news__list__item');
+
 // Fetch API for News
+const news = document.querySelector('.news__body');
 fetch('https://linguisticsghana.azurewebsites.net/api/news/')
 	.then(response => response.json())
 	.then(data => {
 		data.forEach(element => {
-			const newItem = document.createElement('div');
-			newItem.classList.add('news__item');
-			const image = `<img src="${element.image}" alt=""></img>`
-			const h3 = `<h3>${element.content}</h3>`
+
+			const date = new Date(element.pub_date).toDateString()
+
+			const type = element.type
+
+			const newsItem = document.createElement('div');
+			newsItem.classList.add('news__item');
+			const newsValue = `
+				<div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+					<div class="p-4 md:p-6">
+						<div class="grid gap-4">
+
+							<div class="space-y-2">
+								<div class="flex items-center justify-between news__title">
+									<h2 class="text-2xl">
+										${element.title}
+									</h2>
+									<p>${element.type}</p>
+								</div>
+							</div>
+								<img src="${element.image}" alt="" class="news__image" />
+								<p class="news__content">
+								${element.content}
+								</p>
+							<div>
+							</div>
+						</div>
+					</div>
+				<div class="date__more">
+					<p class="date">${date}</p>
+					<a class="font-medium underline hover:no-underline" href="#">
+						Read More
+					</a>
+				</div>
+			</div>
+			`
+			// const image = `<img src="${element.image}" alt=""></img>`
+			// const newsType = `<h2>${element.content}</h2>`;
+			// const h3 = `<h3>${element.content}</h3>`;
+			// newsItem.classList.add('slide-in');
 
 			setTimeout(() => {
-				newItem.innerHTML = image + h3
-				news.appendChild(newItem)
+				newsItem.innerHTML = newsValue
+				news.append(newsItem)
 			}, 5000);
 		});
 		// Trigger animation when element is added
 		setTimeout(() => {
-			news.classList.add('slide-in');
+			// newsItem.classList.add('slide-in');
 		}, 5000);
 	})
 	.catch(error => {
