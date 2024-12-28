@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import image2 from '../assets/LAG_2023.jpg'
+import image3 from '../assets/pexels-ajae-6567674.jpg'
 
 const slides = [
 	{
@@ -18,7 +19,12 @@ const slides = [
 		image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80',
 		title: 'Publications & Research',
 		description: 'Discover our latest linguistic publications'
-	}
+	},
+	{
+		image: image3,
+		title: 'Linguistic Insights',
+		description: 'Explore groundbreaking research and publications that shape the future of linguistics.'
+	},
 ];
 
 export default function Carousel() {
