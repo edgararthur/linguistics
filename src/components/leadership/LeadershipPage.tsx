@@ -4,42 +4,49 @@ import { useQuery, useRouter } from '@tanstack/react-query';
 
 import LeaderCard from './LeaderCard';
 
+import ProfJosesphine from '../../assets/leadership/Prof. Josephine.jpeg'
+import ProfRamos from '../../assets/leadership/Dr Ramos.jpeg'
+import DrKorsah from '../../assets/leadership/Dr. Korsah.jpeg'
+import DrDorothy from '../../assets/leadership/Dr. Dorothy Pokua Agyepong.jpeg'
+import MsAlberta from '../../assets/leadership/Ms. Alberta Dansoah.jpeg'
+import DrRescue from '../../assets/leadership/Dr. Rescue.jpeg'
+
 const leaders = [
 	{
 		name: "Prof. Josephine Dzahene-Quarshie",
 		role: "President",
 		bio: "Leading expert in West African linguistics with over 20 years of research experience.",
-		imageUrl: "src/assets/leadership/Prof. Josephine.jpeg"
+		imageUrl: ProfJosesphine
 	},
 	{
 		name: "Prof. Ramos Asafo-Adjei",
 		role: "Vice President",
 		bio: "Expert in computational linguistics and language technology.",
-		imageUrl: "src/assets/leadership/Dr Ramos.jpeg"
+		imageUrl: ProfRamos
 	},
 	{
 		name: "Dr. Sampson Korsah",
 		role: "Secretary",
 		bio: "Specializes in phonology and language documentation of Gur languages.",
-		imageUrl: "src/assets/leadership/Dr. Korsah.jpeg"
+		imageUrl: DrKorsah
 	},
 	{
 		name: "Dr. Dorothy Pokua",
 		role: "Organizing Secretary",
 		bio: "Expert in computational linguistics and language technology.",
-		imageUrl: "src/assets/leadership/Dr. Dorothy Pokua Agyepong.jpeg"
+		imageUrl: DrDorothy
 	},
 	{
 		name: "Ms. Alberta Dansoah Nyarko Ansah",
 		role: "Treasurer",
 		bio: "Expert in computational linguistics and language technology.",
-		imageUrl: "src/assets/leadership/Ms. Alberta Dansoah.jpeg"
+		imageUrl: MsAlberta
 	},
 	{
 		name: "Dr. Elvis Rescue",
 		role: "Co-Editor, GJL",
 		bio: "Expert in computational linguistics and language technology.",
-		imageUrl: "src/assets/leadership/Dr. Rescue.jpeg"
+		imageUrl: DrRescue
 	},
 ];
 

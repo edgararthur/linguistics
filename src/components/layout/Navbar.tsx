@@ -33,7 +33,7 @@ export default function Navbar() {
 								alt="lag-logo"
 								className="w-12 h-12 rounded-full object-cover"
 							/>
-							<span className="ml-2 text-lg font-medium text-gray-600">Linguistics Association of Ghana</span>
+							<span className="ml-2 text-sm font-medium text-gray-600">Linguistics Association of Ghana</span>
 						</Link>
 					</div>
 					
