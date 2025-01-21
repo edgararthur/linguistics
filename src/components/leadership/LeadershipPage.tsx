@@ -6,23 +6,41 @@ import LeaderCard from './LeaderCard';
 
 const leaders = [
 	{
-		name: "Prof. Kwame Mensah",
+		name: "Prof. Josephine Dzahene-Quarshie",
 		role: "President",
 		bio: "Leading expert in West African linguistics with over 20 years of research experience.",
-		imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80"
+		imageUrl: "src/assets/leadership/Prof. Josephine.jpeg"
 	},
 	{
-		name: "Dr. Abena Osei",
+		name: "Prof. Ramos Asafo-Adjei",
 		role: "Vice President",
-		bio: "Specializes in phonology and language documentation of Gur languages.",
-		imageUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80"
+		bio: "Expert in computational linguistics and language technology.",
+		imageUrl: "src/assets/leadership/Dr Ramos.jpeg"
 	},
 	{
-		name: "Dr. Yaw Addo",
+		name: "Dr. Sampson Korsah",
 		role: "Secretary",
+		bio: "Specializes in phonology and language documentation of Gur languages.",
+		imageUrl: "src/assets/leadership/Dr. Korsah.jpeg"
+	},
+	{
+		name: "Dr. Dorothy Pokua",
+		role: "Organizing Secretary",
 		bio: "Expert in computational linguistics and language technology.",
-		imageUrl: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&q=80"
-	}
+		imageUrl: "src/assets/leadership/Dr. Dorothy Pokua Agyepong.jpeg"
+	},
+	{
+		name: "Ms. Alberta Dansoah Nyarko Ansah",
+		role: "Treasurer",
+		bio: "Expert in computational linguistics and language technology.",
+		imageUrl: "src/assets/leadership/Ms. Alberta Dansoah.jpeg"
+	},
+	{
+		name: "Dr. Elvis Rescue",
+		role: "Co-Editor, GJL",
+		bio: "Expert in computational linguistics and language technology.",
+		imageUrl: "src/assets/leadership/Dr. Rescue.jpeg"
+	},
 ];
 
 export default function LeadershipPage() {
@@ -54,9 +72,9 @@ export default function LeadershipPage() {
 				</div>
 				
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-					{data.map((leader) => (
+					{leaders.map((leader) => (
 						console.log(leader),
-						<LeaderCard key={leader.name} {...leader} />
+						<LeaderCard position={leader.role} description={leader.bio} image={leader.imageUrl} key={leader.name} {...leader} />
 					))}
 				</div>
 			</div>
