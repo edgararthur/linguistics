@@ -14,6 +14,7 @@ export default function Navbar() {
 		{ name: 'Leadership', href: '/leadership' },
 		{ name: 'Publications', href: '/publications' },
 		{ name: 'Events', href: '/events' },
+		{ name: 'Members', href: '/membership' },
 		{ name: 'Collaborate', href: '/collaborate' },
 		{ name: 'Join Us', href: '/join' },
 	];
