@@ -24,12 +24,6 @@ const membershipTypes = [
     price: "GH₵200",
     description: "For linguistics professionals and researchers",
     features: ["Full publication access", "Voting rights", "Research collaboration opportunities"]
-  },
-  {
-    title: "Institution",
-    price: "GH₵500",
-    description: "For universities and research institutions",
-    features: ["Multiple member access", "Institution-wide benefits", "Partnership opportunities"]
   }
 ];
 
