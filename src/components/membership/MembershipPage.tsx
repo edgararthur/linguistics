@@ -64,8 +64,8 @@ const MembershipPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-2">LAG Members</h1>
-      <p className="text-gray-600 mb-6">Members of the Linguistics Association of Ghana</p>
+      <h1 className="text-lg font-semibold mb-2">LAG Members</h1>
+      <p className="text-gray-600 mb-6 text-xs">Members of the Linguistics Association of Ghana</p>
       
       {loading && (
         <div className="flex justify-center items-center h-64">
@@ -80,15 +80,11 @@ const MembershipPage: React.FC = () => {
           <div className="flex space-x-4">
             <button 
               onClick={loadMembers} 
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
             >
-              Retry
-            </button>
-            <button 
-              onClick={loadSampleData} 
-              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Use Sample Data
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v4a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
+              </svg>
             </button>
           </div>
         </div>
@@ -118,18 +114,20 @@ const MembershipPage: React.FC = () => {
       {!loading && !error && (
         <>
           <div className="flex justify-between items-center mb-4">
-            <div className="text-gray-600">
-              {members.length} member{members.length !== 1 ? 's' : ''} found
+            <div className="text-gray-700 text-xs font-medium flex justify-end">
+              <p className='text-gray-700 text-xs font-medium justify-end align-middle flex'>
+                {members.length} member{members.length !== 1 ? 's' : ''} found
+              </p>
             </div>
             <div className="flex space-x-2">
-              {dataSource === 'real' && (
-                <button
-                  onClick={loadSampleData}
-                  className="text-sm text-gray-500 hover:text-gray-700"
-                >
-                  View sample data instead
-                </button>
-              )}
+              {/* {dataSource === 'real' && (
+                // <button  
+                //   onClick={loadSampleData}
+                //   className="text-sm text-gray-500 hover:text-gray-700"
+                // >
+                //   View sample data instead
+                // </button>
+              )} */}
             </div>
           </div>
           
