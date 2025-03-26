@@ -44,7 +44,7 @@ export default function Navbar() {
 							<Link
 								key={item.name}
 								to={item.href}
-								className={`px-3 py-2 rounded-md text-sm font-normal transition-colors ${
+								className={`px-3 py-2 rounded-md text-xs font-normal transition-colors ${
 									isActive(item.href)
 										? 'text-blue-500'
 										: 'text-gray-500 hover:text-blue-500'
@@ -75,7 +75,7 @@ export default function Navbar() {
 							<Link
 								key={item.name}
 								to={item.href}
-								className={`block px-3 py-2 rounded-md text-base font-medium ${
+								className={`block px-3 py-2 rounded-md text-xs font-medium ${
 									isActive(item.href)
 										? 'text-blue-600 bg-blue-50'
 										: 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
