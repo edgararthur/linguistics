@@ -1,91 +1,85 @@
-# Membership Page Setup
+# LAG Membership Page
 
-This document provides instructions on how to set up and connect a Google Form to the Membership page.
+This component displays information about members of the Linguistics Association of Ghana (LAG).
 
-## Google Forms Setup
+## Implementation Approach
 
-1. **Create a Google Form with the following fields:**
-   - Name (Text)
-   - Email (Text)
-   - Profession (Text)
-   - Specialization (Text)
-   - Institution (Text)
-   - Bio (Paragraph)
-   - Profile Image URL (Text) - Optional, as the app will generate an avatar if none is provided
+The membership page attempts to fetch data directly from the published Google Sheet, with fallback options for reliability:
 
-2. **Connect to a Google Sheet:**
-   - In the Google Form, click on "Responses" tab
-   - Click the Google Sheets icon
-   - Select "Create a new spreadsheet" or connect to an existing one
-   - The form responses will now be collected in this Google Sheet
+### Primary Method: Direct CSV Access
 
-3. **Publish the Google Sheet:**
-   - Open the Google Sheet that's connected to your form
-   - Go to File > Share > Publish to the web
-   - Choose "Entire Document" and select "Sheet1"
-   - Click "Publish"
-   - Copy the published URL (or just the Sheet ID)
+1. The component first attempts to access the published Google Sheet in CSV format
+2. It uses the direct URL: `https://docs.google.com/spreadsheets/d/e/SHEET_ID/pub?output=csv`
+3. The CSV data is parsed and mapped to member objects
 
-## Connecting to the Application
+### Fallback Method: Extracted Data
 
-1. **Update the Sheet ID:**
-   - Open `src/components/membership/MembershipPage.tsx`
-   - Find the line with `const sheetId = 'YOUR_SHEET_ID';`
-   - Replace 'YOUR_SHEET_ID' with your actual Google Sheet ID
-   - The Sheet ID is the long string in the Sheet URL between `/d/` and `/edit`
-   - Example: `https://docs.google.com/spreadsheets/d/`**`1A2B3C4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S0T1U2V`**`/edit`
+If the direct fetch fails (often due to CORS restrictions):
+1. The system falls back to using pre-extracted member data
+2. This data was directly copied from the LAG spreadsheet
+3. A notification appears indicating fallback data is being used
 
-2. **Check Column Mapping:**
-   - Ensure the column mapping in `googleFormsUtils.ts` matches your Google Sheet structure
-   - The default mapping assumes:
-     - Column 0: Name
-     - Column 1: Email
-     - Column 2: Profession
-     - Column 3: Specialization
-     - Column 4: Institution
-     - Column 5: Bio
-     - Column 6: Image URL (optional)
-   - If your columns are different, update the mapping in `fetchMembersFromGoogleForms` function
+### Sample Data Option
+
+The component also includes a sample data option with fictional members for demonstration purposes.
+
+## Data Structure
+
+Each member record includes:
+- First Name
+- Last Name (Surname)
+- Institutional Affiliation
+- Area of Research Interest/Specialisation
+- Professional Website URL (if available)
+- Avatar image (generated using the UI Avatars API)
+
+## CSV Column Mapping
+
+When parsing the CSV data from the Google Sheet, the component maps columns as follows:
+- Column 2: Last Name (SURNAME / LAST NAME)
+- Column 3: First Name (FIRST NAME)
+- Column 11: Research Area (AREA OF RESEARCH INTEREST / SPECIALISATION)
+- Column 12: Affiliation (INSTITUTIONAL AFFILIATION)
+- Column 13: Profile URL (Link to professional webpage)
 
 ## Avatar Generation
 
-The application uses the free UI Avatars API (https://ui-avatars.com) to generate avatars for members who don't provide an image URL:
+The application uses the UI Avatars API to create avatars for all members based on their names.
 
-1. **How it works:**
-   - If a member doesn't provide an image URL, an avatar is automatically generated based on their name
-   - The avatar displays the member's initials on a colored background
-   - The background color is randomly assigned for diversity
+### How it works
 
-2. **Customizing avatars:**
-   - The URL format is: `https://ui-avatars.com/api/?name=John+Doe&background=random&size=128`
-   - You can customize the following parameters:
-     - `name`: The name to generate initials from (spaces are replaced with '+')
-     - `background`: Color of the background (hex code without #, or 'random')
-     - `color`: Text color (hex code without #)
-     - `size`: Image size in pixels
+1. The application takes the member's first and last name
+2. Encodes it for a URL
+3. Creates an avatar URL in this format: `https://ui-avatars.com/api/?name=First+Last&background=random&size=128`
 
-3. **Alternatives:**
-   - If you prefer a different avatar service, update the `fallbackAvatar` variable in `googleFormsUtils.ts`
-   - Other free options include Gravatar (if you collect email addresses) or DiceBear Avatars
+### Customization options
 
-## CORS Considerations
+You can customize avatars with parameters like:
+- `name`: The name to display (initials will be extracted)
+- `background`: Background color (hex without #, or "random")
+- `color`: Text color (hex without #, defaults to white)
+- `size`: Image size in pixels
 
-If you encounter CORS issues, consider:
+## Component Structure
 
-1. **Using a proxy server** to make the request
-2. **Creating a simple backend API** that fetches the data and exposes it to your frontend
-3. **Using Google Sheets API** with proper authentication instead of the published sheet
+- `MembershipPage.tsx`: Main component that manages state and renders the member grid
+- `MemberCard.tsx`: Card component for displaying individual member information
+- `googleFormsUtils.ts`: Utility functions and types for member data handling
 
-## Testing
+## Browser Security Limitations
 
-For development and testing, the application will display mock data if the API connection fails.
+When running locally, browser security restrictions (CORS) often prevent direct access to Google Sheets. In these cases:
 
-## Production Considerations
+1. The fallback data will be used automatically
+2. A notification will appear indicating the use of fallback data
+3. The data displayed is still accurate, just not dynamically fetched
 
-For a production environment:
+## Future Enhancements
 
-1. **Set up error handling** and proper logging
-2. **Implement caching** to reduce API calls
-3. **Add pagination** if the number of members grows large
-4. **Add server-side filtering** to improve search performance
-5. **Set up proper authentication** for the Google Sheets API 
+For a fully dynamic solution, consider:
+
+1. **Backend Proxy**: Create a simple server that fetches the Google Sheet data and serves it to the frontend
+2. **Published JSON**: Export the sheet as JSON and host it on a CORS-enabled server
+3. **Google Sheets API**: Configure proper API access with authentication
+
+These approaches would allow truly dynamic data fetching without browser security limitations. 

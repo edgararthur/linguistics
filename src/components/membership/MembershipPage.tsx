@@ -1,100 +1,147 @@
 import React, { useState, useEffect } from 'react';
 import MemberCard from './MemberCard';
-import { Users, Filter } from 'lucide-react';
 import { Member, fetchMembersFromGoogleForms, getMockMembers } from './googleFormsUtils';
 
-export default function MembershipPage() {
+const MembershipPage: React.FC = () => {
   const [members, setMembers] = useState<Member[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [usingFallback, setUsingFallback] = useState<boolean>(false);
+  const [dataSource, setDataSource] = useState<'real' | 'sample'>('real');
 
   useEffect(() => {
-    // Fetch member data from Google Forms spreadsheet
-    const fetchMembers = async () => {
-      try {
-        setLoading(true);
-        
-        // Replace with your actual Google Sheet ID
-        const sheetId = 'YOUR_SHEET_ID';
-        
-        const membersData = await fetchMembersFromGoogleForms(sheetId);
-        setMembers(membersData);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching member data:', err);
-        setError('Failed to load members. Please try again later.');
-        setLoading(false);
-        
-        // For development purposes, using placeholder data if API fails
-        setMembers(getMockMembers());
-      }
-    };
-
-    fetchMembers();
+    // Load members when component mounts
+    loadMembers();
   }, []);
 
-  // Filter members based on search term
-  const filteredMembers = members.filter(member => 
-    member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    member.institution.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    member.specialization.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const loadMembers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      setUsingFallback(false);
+      
+      // Try to fetch from the published Google Sheet directly
+      console.log('Attempting to fetch member data from Google Sheet...');
+      const data = await fetchMembersFromGoogleForms('');
+      
+      if (data.length === 0) {
+        throw new Error('No data returned from Google Sheet');
+      }
+      
+      setMembers(data);
+      setDataSource('real');
+      
+      // Check if we're using fallback data (static copy) or actual live data
+      // This assumes the fetchMembersFromGoogleForms function sets a console warning when using fallback
+      const consoleMessages = (console.warn as any).calls?.all?.() || [];
+      const usingFallbackData = consoleMessages.some((msg: any) => 
+        msg?.args?.[0] === 'Using extracted data as fallback'
+      );
+      
+      setUsingFallback(usingFallbackData);
+    } catch (err) {
+      console.error('Error loading members:', err);
+      setError('Failed to load member data. Please try again or use sample data.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadSampleData = () => {
+    try {
+      const sampleData = getMockMembers();
+      setMembers(sampleData);
+      setDataSource('sample');
+      setUsingFallback(false);
+      setError(null);
+    } catch (err) {
+      console.error('Error loading sample data:', err);
+      setError('Failed to load sample data. Something is seriously wrong.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Our Members</h1>
-          <p className="mt-2 text-lg text-gray-600">
-            Meet the linguists and language enthusiasts in our community
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-2">LAG Members</h1>
+      <p className="text-gray-600 mb-6">Members of the Linguistics Association of Ghana</p>
+      
+      {loading && (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <span className="ml-4 text-gray-600">Fetching member data...</span>
+        </div>
+      )}
+      
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <p className="font-semibold mb-2">{error}</p>
+          <div className="flex space-x-4">
+            <button 
+              onClick={loadMembers} 
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Retry
+            </button>
+            <button 
+              onClick={loadSampleData} 
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Use Sample Data
+            </button>
+          </div>
+        </div>
+      )}
+      
+      {usingFallback && !loading && !error && dataSource === 'real' && (
+        <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-4">
+          <p>
+            <span className="font-semibold">Note:</span> Unable to connect to the live Google Sheet due to browser security restrictions. 
+            Showing extracted LAG member data instead.
           </p>
         </div>
-
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-        ) : error && members.length === 0 ? (
-          <div className="text-center text-red-500 p-4">
-            <p>{error}</p>
-          </div>
-        ) : (
-          <>
-            <div className="flex flex-col md:flex-row items-center justify-between mb-6 space-y-4 md:space-y-0">
-              <div className="flex items-center">
-                <Users className="h-5 w-5 text-blue-500 mr-2" />
-                <h2 className="text-xl font-semibold text-gray-800">
-                  {filteredMembers.length} Members
-                </h2>
-              </div>
-              
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search members..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-                <Filter className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-              </div>
+      )}
+      
+      {dataSource === 'sample' && !loading && !error && (
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+          <p>Showing sample data. This is not actual LAG member information.</p>
+          <button 
+            onClick={loadMembers} 
+            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Load LAG Member Data
+          </button>
+        </div>
+      )}
+      
+      {!loading && !error && (
+        <>
+          <div className="flex justify-between items-center mb-4">
+            <div className="text-gray-600">
+              {members.length} member{members.length !== 1 ? 's' : ''} found
             </div>
-
-            {filteredMembers.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-                {filteredMembers.map((member) => (
-                  <MemberCard key={member.id} member={member} />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <p className="text-gray-500">No members found matching your search criteria.</p>
-              </div>
-            )}
-          </>
-        )}
-      </div>
+            <div className="flex space-x-2">
+              {dataSource === 'real' && (
+                <button
+                  onClick={loadSampleData}
+                  className="text-sm text-gray-500 hover:text-gray-700"
+                >
+                  View sample data instead
+                </button>
+              )}
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {members.map(member => (
+              <MemberCard key={member.id} member={member} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
-} 
+};
+
+export default MembershipPage; 
