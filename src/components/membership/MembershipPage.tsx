@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import MemberCard from './MemberCard';
 import { Member, fetchMembersFromGoogleForms, getMockMembers } from './googleFormsUtils';
+import gsap from '../../utils/gsapConfig';
 
 const MembershipPage: React.FC = () => {
   const [members, setMembers] = useState<Member[]>([]);
@@ -8,11 +9,41 @@ const MembershipPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [usingFallback, setUsingFallback] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState<'real' | 'sample'>('real');
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Load members when component mounts
     loadMembers();
   }, []);
+
+  useEffect(() => {
+    if (!loading && members.length > 0 && containerRef.current) {
+      const ctx = gsap.context(() => {
+        gsap.from(headerRef.current, {
+          y: -30,
+          opacity: 0,
+          duration: 1,
+          ease: 'power3.out'
+        });
+
+        gsap.from('.member-card', {
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 80%',
+          },
+        });
+      }, containerRef);
+      
+      return () => ctx.revert();
+    }
+  }, [loading, members]);
 
   const loadMembers = async () => {
     try {
@@ -63,9 +94,11 @@ const MembershipPage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-lg font-semibold mb-2">LAG Members</h1>
-      <p className="text-gray-600 mb-6 text-xs">Members of the Linguistics Association of Ghana</p>
+    <div className="container mx-auto px-4 py-8" ref={containerRef}>
+      <div ref={headerRef}>
+        <h1 className="text-lg font-semibold mb-2">LAG Members</h1>
+        <p className="text-gray-600 mb-6 text-xs">Members of the Linguistics Association of Ghana</p>
+      </div>
       
       {loading && (
         <div className="flex justify-center items-center h-64">
@@ -98,7 +131,7 @@ const MembershipPage: React.FC = () => {
           </p>
         </div>
       )}
-      
+
       {dataSource === 'sample' && !loading && !error && (
         <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
           <p>Showing sample data. This is not actual LAG member information.</p>
@@ -110,7 +143,7 @@ const MembershipPage: React.FC = () => {
           </button>
         </div>
       )}
-      
+
       {!loading && !error && (
         <>
           <div className="flex justify-between items-center mb-4">
@@ -119,21 +152,13 @@ const MembershipPage: React.FC = () => {
                 {members.length} member{members.length !== 1 ? 's' : ''} found
               </p>
             </div>
-            <div className="flex space-x-2">
-              {/* {dataSource === 'real' && (
-                // <button  
-                //   onClick={loadSampleData}
-                //   className="text-sm text-gray-500 hover:text-gray-700"
-                // >
-                //   View sample data instead
-                // </button>
-              )} */}
-            </div>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {members.map(member => (
-              <MemberCard key={member.id} member={member} />
+            {members.map((member, index) => (
+              <div key={`${member.firstName}-${member.lastName}-${index}`} className="member-card h-full">
+                <MemberCard member={member} />
+              </div>
             ))}
           </div>
         </>

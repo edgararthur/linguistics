@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import EventCard from './EventCard';
+import gsap from '../../utils/gsapConfig';
 
 const events = [
   {
@@ -26,11 +27,29 @@ const events = [
 ];
 
 export default function EventsPage() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.event-card-wrapper', {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 80%',
+        },
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-12 bg-gray-50 min-h-screen">
+      <div ref={containerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900">Events</h1>
+          <h1 className="text-5xl font-bold text-gray-900 interactive">Events</h1>
           <p className="mt-4 text-xl text-gray-600">
             Join us at our upcoming events and activities
           </p>
@@ -38,7 +57,9 @@ export default function EventsPage() {
         
         <div className="space-y-6">
           {events.map((event) => (
-            <EventCard key={event.title} {...event} />
+            <div key={event.title} className="event-card-wrapper">
+              <EventCard {...event} />
+            </div>
           ))}
         </div>
       </div>

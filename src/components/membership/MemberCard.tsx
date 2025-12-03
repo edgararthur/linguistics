@@ -7,15 +7,17 @@ interface MemberCardProps {
 
 const MemberCard: React.FC<MemberCardProps> = ({ member }) => {
 	return (
-		<div className="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow duration-200">
+		<div className="bg-white rounded-lg shadow-sm p-4 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group interactive">
 			<div className="flex items-center space-x-3">
-				<img
-					src={member.imageUrl}
-					alt={`${member.firstName} ${member.lastName}`}
-					className="w-12 h-12 rounded-full border-2 border-gray-200"
-				/>
+				<div className="relative">
+					<img
+						src={member.imageUrl}
+						alt={`${member.firstName} ${member.lastName}`}
+						className="w-12 h-12 rounded-full border-2 border-gray-200 group-hover:border-yellow-500 transition-colors duration-300 object-cover"
+					/>
+				</div>
 				<div className="flex-1 min-w-0">
-					<h3 className="text-sm font-semibold text-gray-900 truncate">
+					<h3 className="text-sm font-bold text-gray-900 truncate group-hover:text-yellow-600 transition-colors">
 						{member.firstName} {member.lastName}
 					</h3>
 					<p className="text-xs text-gray-600 truncate">{member.affiliation}</p>
@@ -28,7 +30,7 @@ const MemberCard: React.FC<MemberCardProps> = ({ member }) => {
 						href={member.profileUrl}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="text-xs text-blue-600 hover:text-blue-800 mt-1 inline-block"
+						className="text-xs text-yellow-600 hover:text-yellow-800 mt-1 inline-block font-medium interactive"
 					>
 						View Profile →
 					</a>
