@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.pattern-grid-lg {
+  background-image: radial-gradient(#4A5568 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.interactive {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.interactive:hover {
+  transform: scale(1.02);
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from '../../utils/gsapConfig';
+
 import LeaderCard from './LeaderCard';
 import { leaders } from '../../data/leaders';
 

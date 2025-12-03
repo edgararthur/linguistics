@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PublicationCard from './PublicationCard';
 import gsap from '../../utils/gsapConfig';
+import { Search, BookOpen } from 'lucide-react';
 
 const publications = [
   {
@@ -37,57 +38,82 @@ export default function PublicationsPage() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      gsap.from('.hero-content', {
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power3.out'
+      });
+
+      gsap.from('.search-bar', { 
+        y: 20, 
+        opacity: 0, 
+        duration: 0.8, 
+        delay: 0.4 
+      });
+      
       gsap.from('.pub-card-wrapper', {
         y: 50,
         opacity: 0,
         duration: 0.8,
         stagger: 0.2,
         scrollTrigger: {
-          trigger: containerRef.current,
+          trigger: '.publications-list',
           start: 'top 80%',
         },
       });
-    });
-    return () => ctx.revert();
-  }, [filteredPublications]); // Re-animate on search filter change (optional, maybe too jarring)
-
-  // Actually, better to animate only on mount, or use Flip plugin for reordering (which I don't have).
-  // Let's just animate on mount for now.
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-        gsap.from('.page-title', { y: -50, opacity: 0, duration: 1 });
-        gsap.from('.search-bar', { scale: 0.9, opacity: 0, duration: 0.8, delay: 0.3 });
-    });
+    }, containerRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <div className="py-12 bg-gray-50 min-h-screen">
-      <div ref={containerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 page-title">
-          <h1 className="text-5xl font-bold text-gray-900 interactive">Publications</h1>
-          <p className="mt-4 text-xl text-gray-600">
-            Explore our research publications and scholarly works
-          </p>
+    <div className="bg-gray-50 min-h-screen" ref={containerRef}>
+      {/* Hero Section */}
+      <div className="bg-blue-900 text-white py-20 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pattern-grid-lg"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-3xl mx-auto text-center hero-content">
+            <div className="inline-flex items-center justify-center p-3 bg-blue-800 rounded-xl mb-6">
+              <BookOpen className="w-8 h-8 text-yellow-400" />
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              Research & <span className="text-yellow-400">Publications</span>
+            </h1>
+            <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+              Explore our collection of linguistic research, scholarly works, and academic papers.
+            </p>
+          </div>
         </div>
+      </div>
 
-        <div className="mb-8 max-w-2xl mx-auto search-bar">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <div className="mb-12 max-w-2xl mx-auto search-bar relative">
+          <div className="absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <Search className="w-6 h-6" />
+          </div>
           <input
             type="text"
-            placeholder="Search publications..."
-            className="w-full px-6 py-4 rounded-full border-2 border-gray-200 focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-lg transition-shadow focus:shadow-xl interactive text-lg"
+            placeholder="Search by title or author..."
+            className="w-full pl-16 pr-6 py-4 rounded-2xl border-2 border-gray-200 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 shadow-sm transition-all text-lg outline-none"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         
-        <div className="space-y-6">
-          {filteredPublications.map((pub) => (
-            <div key={pub.title} className="pub-card-wrapper">
+        <div className="space-y-6 publications-list">
+          {filteredPublications.length > 0 ? (
+            filteredPublications.map((pub) => (
+              <div key={pub.title} className="pub-card-wrapper">
                 <PublicationCard {...pub} />
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-12 text-gray-500">
+              <p className="text-xl">No publications found matching your search.</p>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

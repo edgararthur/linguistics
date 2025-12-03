@@ -70,7 +70,14 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start space-x-3 text-gray-400">
                 <MapPin className="h-5 w-5 text-yellow-500 flex-shrink-0 mt-1" />
-                <span>Department of Linguistics,<br/>University of Ghana, Legon</span>
+                <a 
+                  href="https://www.google.com/maps/search/?api=1&query=Department+of+Linguistics+University+of+Ghana+Legon" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-yellow-500 transition-colors interactive"
+                >
+                  Department of Linguistics,<br/>University of Ghana, Legon
+                </a>
               </li>
               <li className="flex items-center space-x-3 text-gray-400">
                 <Mail className="h-5 w-5 text-yellow-500 flex-shrink-0" />
@@ -91,11 +98,13 @@ export default function Footer() {
               <div className="relative">
                 <input 
                   type="email" 
+                  aria-label="Email address"
                   placeholder="Your email address" 
                   className="w-full bg-gray-800 border border-gray-700 rounded-lg py-3 px-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all interactive"
                 />
                 <button 
                   type="submit" 
+                  aria-label="Subscribe"
                   className="absolute right-2 top-2 bg-yellow-500 text-gray-900 p-1.5 rounded-md hover:bg-yellow-400 transition-colors interactive"
                 >
                   <Send className="h-4 w-4" />
