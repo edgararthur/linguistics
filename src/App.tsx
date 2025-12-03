@@ -9,6 +9,7 @@ import CollaboratePage from './components/collaborate/CollaboratePage';
 import JoinPage from './components/join/JoinPage';
 import EventsPage from './components/events/EventsPage';
 import MembershipPage from './components/membership/MembershipPage';
+import ContactPage from './components/contact/ContactPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/join" element={<JoinPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/membership" element={<MembershipPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
