@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { CheckCircle, Building2 } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import Card from '../shared/Card';
 import Button from '../shared/Button';
 import gsap from '../../utils/gsapConfig';

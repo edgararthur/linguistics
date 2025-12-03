@@ -30,7 +30,12 @@ export default function PublicationCard({
           <p className="text-gray-600 mb-4">{abstract}</p>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-500">{date}</span>
-            <Button variant="outline" size="sm" className="interactive hover:bg-yellow-500 hover:text-white hover:border-transparent">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="interactive hover:bg-yellow-500 hover:text-white hover:border-transparent"
+              onClick={() => window.open(downloadUrl, '_blank')}
+            >
               Download PDF
             </Button>
           </div>

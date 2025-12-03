@@ -31,7 +31,12 @@ export default function EventCard({
             <p>{location}</p>
           </div>
           <p className="text-gray-600 mb-4">{description}</p>
-          <Button variant="outline" size="sm" className="interactive hover:bg-yellow-500 hover:text-white hover:border-transparent">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="interactive hover:bg-yellow-500 hover:text-white hover:border-transparent"
+            onClick={() => window.open(registrationUrl, '_blank')}
+          >
             Register Now
           </Button>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
@@ -6,7 +6,46 @@ import imageUrl from "../../assets/logo.png"
 
 export default function Navbar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isScrolled, setIsScrolled] = useState(false);
 	const location = useLocation();
+	const isHomePage = location.pathname === '/';
+
+	useEffect(() => {
+		const handleScroll = () => {
+			if (window.scrollY > 50) {
+				setIsScrolled(true);
+			} else {
+				setIsScrolled(false);
+			}
+		};
+
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
+
+	const isTransparent = isHomePage && !isScrolled;
+
+	const navClasses = `fixed w-full z-50 transition-all duration-300 ${
+		isTransparent 
+			? 'bg-transparent' 
+			: 'bg-white shadow-lg'
+	}`;
+
+	const textClasses = isTransparent
+		? 'text-white hover:text-yellow-400'
+		: 'text-gray-500 hover:text-blue-500';
+	
+	const activeTextClasses = isTransparent
+		? 'text-yellow-400'
+		: 'text-blue-500';
+
+	const logoTextClasses = isTransparent
+		? 'text-white'
+		: 'text-gray-600';
+
+	const mobileButtonClasses = isTransparent
+		? 'text-white hover:text-yellow-400'
+		: 'text-gray-700 hover:text-blue-600';
 
 	const navItems = [
 		{ name: 'Home', href: '/' },
@@ -24,7 +63,7 @@ export default function Navbar() {
 	};
 
 	return (
-		<nav className="bg-white shadow-lg fixed w-full z-50">
+		<nav className={navClasses}>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between h-16">
 					<div className="flex items-center">
@@ -34,7 +73,7 @@ export default function Navbar() {
 								alt="lag-logo"
 								className="w-12 h-12 rounded-full object-cover"
 							/>
-							<span className="ml-2 text-sm font-medium text-gray-600">Linguistics Association of Ghana</span>
+							<span className={`ml-2 text-sm font-medium transition-colors duration-300 ${logoTextClasses}`}>Linguistics Association of Ghana</span>
 						</Link>
 					</div>
 					
@@ -46,8 +85,8 @@ export default function Navbar() {
 								to={item.href}
 								className={`px-3 py-2 rounded-md text-xs font-normal transition-colors ${
 									isActive(item.href)
-										? 'text-blue-500'
-										: 'text-gray-500 hover:text-blue-500'
+										? activeTextClasses
+										: textClasses
 								}`}
 							>
 								{item.name}
@@ -59,7 +98,7 @@ export default function Navbar() {
 					<div className="md:hidden flex items-center">
 						<button
 							onClick={() => setIsMenuOpen(!isMenuOpen)}
-							className="text-gray-700 hover:text-blue-600"
+							className={`transition-colors duration-300 ${mobileButtonClasses}`}
 						>
 							{isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
 						</button>
@@ -69,7 +108,7 @@ export default function Navbar() {
 
 			{/* Mobile Navigation */}
 			{isMenuOpen && (
-				<div className="md:hidden">
+				<div className="md:hidden bg-white shadow-lg">
 					<div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
 						{navItems.map((item) => (
 							<Link

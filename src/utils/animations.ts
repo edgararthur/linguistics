@@ -41,7 +41,7 @@ export const staggerChildren = (parent: string | Element, child: string, delay: 
 
 export const parallaxElement = (element: string | Element, speed: number = 0.5) => {
   return gsap.to(element, {
-    y: (i, target) => -ScrollTrigger.maxScroll(window) * target.dataset.speed,
+    y: (i, target) => -ScrollTrigger.maxScroll(window) * (parseFloat(target.dataset.speed) || speed),
     ease: "none",
     scrollTrigger: {
       trigger: "body",
