@@ -12,9 +12,10 @@ export interface Member {
 
 /**
  * Fetches member data from the published Google Sheet in CSV format
+ * @param sheetId - The ID of the Google Sheet
  * @returns Promise with an array of Member objects
  */
-export async function fetchMembersFromGoogleForms(): Promise<Member[]> {
+export async function fetchMembersFromGoogleForms(sheetId: string): Promise<Member[]> {
 	try {
 		// Direct access to the published sheet without authentication
 		// Using the published URL format with CSV output

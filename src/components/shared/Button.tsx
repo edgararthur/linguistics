@@ -1,21 +1,19 @@
 import React from 'react';
 
-type ButtonProps = {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'outline';
   size?: 'sm' | 'md' | 'lg';
-  className?: string;
-  onClick?: () => void;
-};
+}
 
 export default function Button({
   children,
   variant = 'primary',
   size = 'md',
   className = '',
-  onClick
+  ...props
 }: ButtonProps) {
-  const baseStyles = 'inline-flex items-center justify-center rounded-md font-medium transition-colors';
+  const baseStyles = 'inline-flex items-center justify-center rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variants = {
     primary: 'bg-blue-600 text-white hover:bg-blue-700',
@@ -32,7 +30,7 @@ export default function Button({
   return (
     <button
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
-      onClick={onClick}
+      {...props}
     >
       {children}
     </button>

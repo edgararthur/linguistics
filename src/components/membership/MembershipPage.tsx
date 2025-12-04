@@ -1,14 +1,67 @@
 import React, { useState, useEffect, useRef } from 'react';
-import MemberCard from './MemberCard';
-import { Member, fetchMembersFromGoogleForms, getMockMembers } from './googleFormsUtils';
+import { supabase } from '../../lib/supabase';
 import gsap from '../../utils/gsapConfig';
-import { Users, AlertCircle, RefreshCw } from 'lucide-react';
+import { Users, AlertCircle, RefreshCw, User } from 'lucide-react';
+
+interface Member {
+  id: string;
+  first_name: string;
+  last_name: string;
+  affiliation: string;
+  research_area: string;
+  image_url?: string;
+  membership_type: string;
+}
+
+const MemberCard = ({ member }: { member: Member }) => (
+  <div className="member-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 group h-full flex flex-col">
+    <div className="h-24 bg-blue-900 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10 pattern-grid-lg"></div>
+    </div>
+    <div className="px-6 -mt-12 flex-1 flex flex-col">
+      <div className="relative w-24 h-24 rounded-full border-4 border-white shadow-md overflow-hidden mb-4 bg-gray-100">
+        {member.image_url ? (
+          <img 
+            src={member.image_url} 
+            alt={`${member.first_name} ${member.last_name}`}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              // Fallback if image fails to load
+              (e.target as HTMLImageElement).style.display = 'none';
+              (e.target as HTMLImageElement).parentElement!.classList.add('flex', 'items-center', 'justify-center');
+              (e.target as HTMLImageElement).parentElement!.innerHTML = '<svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
+            }}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <User className="w-10 h-10 text-gray-400" />
+          </div>
+        )}
+      </div>
+      
+      <div className="mb-4">
+        <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+          {member.first_name} {member.last_name}
+        </h3>
+        <p className="text-sm text-blue-600 font-medium mb-1">{member.affiliation}</p>
+        <span className="inline-block px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">
+          {member.membership_type}
+        </span>
+      </div>
+      
+      <div className="mt-auto pt-4 border-t border-gray-100 pb-6">
+        <p className="text-sm text-gray-500 line-clamp-2">
+          <span className="font-semibold text-gray-700">Research:</span> {member.research_area}
+        </p>
+      </div>
+    </div>
+  </div>
+);
 
 const MembershipPage: React.FC = () => {
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [dataSource, setDataSource] = useState<'real' | 'sample'>('real');
   
   const containerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -49,32 +102,20 @@ const MembershipPage: React.FC = () => {
       setLoading(true);
       setError(null);
       
-      console.log('Attempting to fetch member data from Google Sheet...');
-      const data = await fetchMembersFromGoogleForms();
+      const { data, error } = await supabase
+        .from('members')
+        .select('*')
+        .eq('status', 'active')
+        .order('last_name', { ascending: true });
       
-      if (data.length === 0) {
-        throw new Error('No data returned from Google Sheet');
-      }
+      if (error) throw error;
       
-      setMembers(data);
-      setDataSource('real');
+      setMembers(data || []);
     } catch (err) {
       console.error('Error loading members:', err);
-      setError('Failed to load member data. You can view sample data instead.');
+      setError('Failed to load member data.');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const loadSampleData = () => {
-    try {
-      const sampleData = getMockMembers();
-      setMembers(sampleData);
-      setDataSource('sample');
-      setError(null);
-    } catch (err) {
-      console.error('Error loading sample data:', err);
-      setError('Failed to load sample data.');
     }
   };
 
@@ -98,55 +139,44 @@ const MembershipPage: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
-        {loading && (
-          <div className="flex flex-col items-center justify-center py-20">
-            <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-6"></div>
-            <p className="text-lg text-gray-600 font-medium">Loading member directory...</p>
-          </div>
-        )}
-
-        {error && !loading && (
-          <div className="max-w-md mx-auto text-center bg-white p-8 rounded-2xl shadow-sm border border-red-100">
-            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Unable to Load Members</h3>
-            <p className="text-gray-600 mb-6">{error}</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                onClick={() => loadMembers()}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
-              >
-                <RefreshCw className="w-4 h-4" /> Retry
-              </button>
-              <button 
-                onClick={loadSampleData}
-                className="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
-              >
-                View Sample Data
-              </button>
+        {error && (
+          <div className="mb-8 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg flex items-start justify-between">
+            <div className="flex items-start">
+              <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 mr-3" />
+              <div>
+                <h3 className="text-red-800 font-medium">Unable to load members</h3>
+                <p className="text-red-700 text-sm mt-1">{error}</p>
+              </div>
             </div>
+            <button 
+              onClick={loadMembers}
+              className="flex items-center text-red-700 hover:text-red-900 font-medium text-sm"
+            >
+              <RefreshCw className="w-4 h-4 mr-1" /> Retry
+            </button>
           </div>
         )}
 
-        {!loading && !error && members.length > 0 && (
+        {loading ? (
+          <div className="text-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading directory...</p>
+          </div>
+        ) : (
           <>
-            {dataSource === 'sample' && (
-              <div className="mb-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg flex items-center gap-3 text-yellow-800">
-                <AlertCircle className="w-5 h-5" />
-                <p>Viewing sample data. Live data could not be loaded.</p>
+            {members.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 members-grid">
+                {members.map((member) => (
+                  <MemberCard key={member.id} member={member} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20 bg-white rounded-xl border border-gray-100">
+                <Users className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900">No members found</h3>
+                <p className="text-gray-500 mt-1">The directory is currently empty.</p>
               </div>
             )}
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 members-grid">
-              {members.map((member, index) => (
-                <div key={`${member.firstName}-${member.lastName}-${index}`} className="member-card h-full">
-                  <MemberCard member={member} />
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-12 text-center text-gray-500 text-sm">
-              Showing {members.length} members
-            </div>
           </>
         )}
       </div>
