@@ -20,12 +20,21 @@ export type Database = {
           id: string;
           first_name: string;
           last_name: string;
+          other_names?: string;
           email: string;
+          alternative_email?: string;
+          phone?: string;
           affiliation: string;
           research_area: string;
           membership_type: string;
           status: string;
           image_url: string | null;
+          profile_url?: string | null;
+          country?: string;
+          qualification?: string;
+          whatsapp_consent?: boolean;
+          joined_year?: string;
+          dues_paid_until?: string | null;
         };
       };
       publications: {

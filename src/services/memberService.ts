@@ -2,7 +2,7 @@ import { supabase } from '../lib/supabase';
 import { Member } from '../types';
 
 export const memberService = {
-  async getMembers(page = 1, limit = 10, search = '', status?: string) {
+  async getMembers(page = 1, limit = 12, search = '', status?: string) {
     let query = supabase
       .from('members')
       .select('*', { count: 'exact' });
@@ -20,7 +20,7 @@ export const memberService = {
 
     const { data, error, count } = await query
       .range(from, to)
-      .order('created_at', { ascending: false });
+      .order('last_name', { ascending: true }); // Order by last name for directory
 
     if (error) throw error;
 
@@ -69,13 +69,13 @@ export const memberService = {
 
     if (error) throw error;
   },
-  
+
   async getMemberStats() {
-      const { count: total } = await supabase.from('members').select('*', { count: 'exact', head: true });
-      const { count: active } = await supabase.from('members').select('*', { count: 'exact', head: true }).eq('status', 'active');
-      const { count: pending } = await supabase.from('members').select('*', { count: 'exact', head: true }).eq('status', 'pending');
-      
-      return { total, active, pending };
+    const { count: total } = await supabase.from('members').select('*', { count: 'exact', head: true });
+    const { count: active } = await supabase.from('members').select('*', { count: 'exact', head: true }).eq('status', 'active');
+    const { count: pending } = await supabase.from('members').select('*', { count: 'exact', head: true }).eq('status', 'pending');
+
+    return { total, active, pending };
   },
 
   async getAllMemberPhones() {
@@ -84,7 +84,7 @@ export const memberService = {
       .select('phone')
       .not('phone', 'is', null)
       .neq('phone', '');
-    
+
     if (error) throw error;
     return data.map(m => m.phone).filter(p => p) as string[];
   }

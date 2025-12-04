@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import gsap from '../utils/gsapConfig';
-import image2 from '../assets/LAG_2023.jpg';
-import image3 from '../assets/pexels-ajae-6567674.jpg';
 import videoBg from '../assets/18346428-hd_1920_1080_30fps.mp4';
+import image2 from '../assets/LAG_2023.jpg';
+import ugImage from '../assets/ug_campus.png';
+import knustImage from '../assets/knust_campus.png';
+import uccImage from '../assets/ucc_campus.png';
 
 const slides = [
   {
@@ -14,21 +16,27 @@ const slides = [
   },
   {
     type: 'image',
+    source: ugImage,
+    title: 'University of Ghana, Legon',
+    description: 'Premier center for linguistic studies and research excellence.'
+  },
+  {
+    type: 'image',
+    source: knustImage,
+    title: 'KNUST',
+    description: 'Bridging technology and linguistics for modern applications.'
+  },
+  {
+    type: 'image',
+    source: uccImage,
+    title: 'University of Cape Coast',
+    description: 'Leading the way in language education and teacher training.'
+  },
+  {
+    type: 'image',
     source: image2,
     title: '15th LAG Conference 2023',
     description: 'Rethinking Language and Linguistics Research for Sustainable Development in the 21st Century'
-  },
-  {
-    type: 'image',
-    source: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80',
-    title: 'Publications & Research',
-    description: 'Discover our latest linguistic publications'
-  },
-  {
-    type: 'image',
-    source: image3,
-    title: 'Linguistic Insights',
-    description: 'Explore groundbreaking research and publications that shape the future of linguistics.'
   },
 ];
 

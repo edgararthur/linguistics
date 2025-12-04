@@ -7,8 +7,10 @@ import LeadershipPage from './components/leadership/LeadershipPage';
 import PublicationsPage from './components/publications/PublicationsPage';
 import CollaboratePage from './components/collaborate/CollaboratePage';
 import JoinPage from './components/join/JoinPage';
+import MemberRegistrationForm from './components/join/MemberRegistrationForm';
 import EventsPage from './components/events/EventsPage';
 import MembershipPage from './components/membership/MembershipPage';
+import PayDuesPage from './components/membership/PayDuesPage';
 import ContactPage from './components/contact/ContactPage';
 
 // Admin Imports
@@ -40,8 +42,10 @@ function App() {
               <Route path="/publications" element={<PublicationsPage />} />
               <Route path="/collaborate" element={<CollaboratePage />} />
               <Route path="/join" element={<JoinPage />} />
+              <Route path="/register" element={<MemberRegistrationForm />} />
               <Route path="/events" element={<EventsPage />} />
               <Route path="/membership" element={<MembershipPage />} />
+              <Route path="/pay-dues" element={<PayDuesPage />} />
               <Route path="/contact" element={<ContactPage />} />
             </Route>
 
