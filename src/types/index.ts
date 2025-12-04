@@ -32,3 +32,30 @@ export interface Leader {
     display_order: number;
     created_at?: string;
 }
+
+export interface FinanceRecord {
+    id: string;
+    member_id?: string;
+    amount: number;
+    type: 'dues' | 'donation' | 'event_fee';
+    status: 'paid' | 'pending' | 'failed';
+    date: string;
+    description?: string;
+    created_at?: string;
+}
+
+export interface Expense {
+    id: string;
+    category: 'administrative' | 'events' | 'publications' | 'travel' | 'equipment' | 'other';
+    description: string;
+    amount: number;
+    date: string;
+    receipt_url?: string;
+    created_by?: string;
+    created_at: string;
+}
+
+export type ReportType = 'income_statement' | 'expense_summary' | 'dues_report' | 'full_financial';
+
+export type ExpenseCategory = 'administrative' | 'events' | 'publications' | 'travel' | 'equipment' | 'other';
+

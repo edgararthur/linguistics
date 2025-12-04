@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { memberService } from '../../services/memberService';
 import { Member } from '../../types';
 import gsap from '../../utils/gsapConfig';
-import { Users, AlertCircle, RefreshCw, User, ChevronLeft, ChevronRight, Search, Phone, Mail, MapPin, GraduationCap, BookOpen, Globe } from 'lucide-react';
+import { Users, AlertCircle, RefreshCw, User, ChevronLeft, ChevronRight, Search, Mail, MapPin, GraduationCap, BookOpen, Globe } from 'lucide-react';
 
 const MemberCard = ({ member }: { member: Member }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -114,12 +114,7 @@ const MemberCard = ({ member }: { member: Member }) => {
             </div>
           )}
 
-          {member.phone && (
-            <div className="flex items-center">
-              <Phone className="w-4 h-4 mr-2 text-yellow-400 shrink-0" />
-              <span>{member.phone}</span>
-            </div>
-          )}
+
 
           {member.profile_url && (
             <div className="flex items-center">

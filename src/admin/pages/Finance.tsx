@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DollarSign, FileText, TrendingUp, CreditCard, AlertCircle, Loader } from 'lucide-react';
+import { DollarSign, FileText, TrendingUp, CreditCard, AlertCircle, Loader, Receipt } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import Button from '../../components/shared/Button';
 import Pagination from '../../components/shared/Pagination';
@@ -7,26 +7,35 @@ import { financeService } from '../../services/financeService';
 import { smsService } from '../../services/smsService';
 import { useToast } from '../../contexts/ToastContext';
 import FinanceModal from '../components/FinanceModal';
+import ExpenseModal from '../components/ExpenseModal';
+import ReportModal from '../components/ReportModal';
 import { supabase } from '../../lib/supabase';
+import { Expense } from '../../types';
 
 export default function Finance() {
   const { showToast } = useToast();
   const [transactions, setTransactions] = useState<any[]>([]);
-  const [stats, setStats] = useState({ totalRevenue: 0, outstanding: 0, pendingCount: 0 });
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [stats, setStats] = useState({ totalRevenue: 0, outstanding: 0, pendingCount: 0, totalExpenses: 0 });
   const [chartData, setChartData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'payments' | 'expenses'>('payments');
   const [refreshKey, setRefreshKey] = useState(0);
   const [sendingReminders, setSendingReminders] = useState(false);
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [expenseCurrentPage, setExpenseCurrentPage] = useState(1);
+  const [expenseTotalItems, setExpenseTotalItems] = useState(0);
   const itemsPerPage = 20;
 
   useEffect(() => {
     fetchData();
-  }, [refreshKey, currentPage]);
+  }, [refreshKey, currentPage, expenseCurrentPage, activeTab]);
 
   async function fetchData() {
     try {
@@ -44,14 +53,19 @@ export default function Finance() {
       setTransactions(payments || []);
       setTotalItems(count || 0);
 
-      // Calculate Stats (Simplified for now, ideally backend function)
-      // For total revenue, we might need a separate query or aggregate function
-      // Here we just fetch a summary if possible, or use the financeService for other stats if they are still relevant
-      // For now, let's try to get total revenue from a separate query
+      // Fetch expenses
+      const { data: expensesData, count: expenseCount } = await financeService.getExpenses(
+        expenseCurrentPage,
+        itemsPerPage
+      );
+      setExpenses(expensesData || []);
+      setExpenseTotalItems(expenseCount || 0);
+
+      // Calculate Stats
       const { data: revenueData } = await supabase
         .from('payments')
         .select('total_amount')
-        .eq('status', 'paid'); // Assuming 'paid' or 'completed'
+        .eq('status', 'paid');
 
       const totalRevenue = revenueData?.reduce((sum, p) => sum + (p.total_amount || 0), 0) || 0;
 
@@ -61,13 +75,17 @@ export default function Finance() {
         .select('*', { count: 'exact', head: true })
         .eq('status', 'pending');
 
+      // Expense stats
+      const expenseStats = await financeService.getExpenseStats();
+
       setStats({
         totalRevenue,
-        outstanding: 0, // Needs logic to calculate outstanding dues
-        pendingCount: pendingCount || 0
+        outstanding: 0,
+        pendingCount: pendingCount || 0,
+        totalExpenses: expenseStats.totalExpenses
       });
 
-      // Chart data - placeholder or fetch from service if it has logic
+      // Chart data
       const chartData = await financeService.getChartData();
       setChartData(chartData);
 
@@ -99,7 +117,6 @@ export default function Finance() {
       let sentCount = 0;
       let failedCount = 0;
 
-      // Send sequentially to avoid rate limits or overwhelming the API
       for (const item of outstandingMembers) {
         if (item.member.phone) {
           try {
@@ -128,18 +145,29 @@ export default function Finance() {
     }
   };
 
+  const formatCategory = (category: string) => {
+    return category.charAt(0).toUpperCase() + category.slice(1);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Finance & Dues</h1>
-          <p className="text-slate-500">Track payments, invoices, and financial reports.</p>
+          <p className="text-slate-500">Track payments, expenses, and financial reports.</p>
         </div>
         <div className="flex space-x-3">
-          <button className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 text-sm font-medium flex items-center">
+          <button
+            onClick={() => setIsReportModalOpen(true)}
+            className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 text-sm font-medium flex items-center"
+          >
             <FileText className="w-4 h-4 mr-2" />
             Generate Report
           </button>
+          <Button onClick={() => setIsExpenseModalOpen(true)} variant="outline" className="flex items-center">
+            <Receipt className="w-4 h-4 mr-2" />
+            Record Expense
+          </Button>
           <Button onClick={() => setIsModalOpen(true)} className="flex items-center">
             <DollarSign className="w-4 h-4 mr-2" />
             Record Payment
@@ -148,7 +176,7 @@ export default function Finance() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
           <div className="flex justify-between items-start mb-4">
             <div>
@@ -168,11 +196,26 @@ export default function Finance() {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
           <div className="flex justify-between items-start mb-4">
             <div>
+              <p className="text-sm text-slate-500">Total Expenses (YTD)</p>
+              <h3 className="text-2xl font-bold text-slate-900">GH₵ {stats.totalExpenses.toLocaleString()}</h3>
+            </div>
+            <div className="p-2 bg-red-100 rounded-lg">
+              <Receipt className="w-5 h-5 text-red-600" />
+            </div>
+          </div>
+          <div className="text-sm text-red-600 flex items-center">
+            All Categories
+          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+          <div className="flex justify-between items-start mb-4">
+            <div>
               <p className="text-sm text-slate-500">Outstanding Dues</p>
               <h3 className="text-2xl font-bold text-slate-900">GH₵ {stats.outstanding.toLocaleString()}</h3>
             </div>
-            <div className="p-2 bg-red-100 rounded-lg">
-              <AlertCircle className="w-5 h-5 text-red-600" />
+            <div className="p-2 bg-yellow-100 rounded-lg">
+              <AlertCircle className="w-5 h-5 text-yellow-600" />
             </div>
           </div>
           <button
@@ -190,8 +233,8 @@ export default function Finance() {
               <p className="text-sm text-slate-500">Pending Verifications</p>
               <h3 className="text-2xl font-bold text-slate-900">{stats.pendingCount} Payments</h3>
             </div>
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <CreditCard className="w-5 h-5 text-yellow-600" />
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <CreditCard className="w-5 h-5 text-blue-600" />
             </div>
           </div>
           <button className="text-sm text-blue-600 hover:underline mt-1">Review Transactions</button>
@@ -216,48 +259,102 @@ export default function Finance() {
           </div>
         </div>
 
-        {/* Recent Transactions */}
+        {/* Transactions/Expenses */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-          <h3 className="text-lg font-bold text-slate-900 mb-4">Recent Transactions</h3>
+          {/* Tabs */}
+          <div className="flex border-b border-slate-200 mb-4">
+            <button
+              onClick={() => setActiveTab('payments')}
+              className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'payments'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-slate-500 hover:text-slate-700'
+                }`}
+            >
+              Payments
+            </button>
+            <button
+              onClick={() => setActiveTab('expenses')}
+              className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'expenses'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-slate-500 hover:text-slate-700'
+                }`}
+            >
+              Expenses
+            </button>
+          </div>
+
           <div className="overflow-y-auto max-h-80">
             {loading ? (
               <div className="flex justify-center py-8">
                 <Loader className="w-6 h-6 text-yellow-500 animate-spin" />
               </div>
-            ) : transactions.length === 0 ? (
-              <p className="text-slate-500 text-center py-4">No recent transactions.</p>
+            ) : activeTab === 'payments' ? (
+              transactions.length === 0 ? (
+                <p className="text-slate-500 text-center py-4">No recent transactions.</p>
+              ) : (
+                <div className="space-y-4">
+                  {transactions.map(trx => (
+                    <div key={trx.id} className="flex items-center justify-between p-3 hover:bg-slate-50 rounded-lg transition-colors border border-slate-50">
+                      <div>
+                        <p className="font-medium text-slate-900 text-sm">
+                          {trx.payer_name || 'Unknown Payer'}
+                        </p>
+                        <p className="text-xs text-slate-500 capitalize">{trx.network || 'Payment'}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-slate-900 text-sm">GH₵ {trx.total_amount}</p>
+                        <span className={`text-xs px-1.5 py-0.5 rounded-full capitalize ${trx.status === 'paid' || trx.status === 'completed' || trx.status === 'success' ? 'bg-green-100 text-green-700' :
+                          trx.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                            'bg-red-100 text-red-700'
+                          }`}>
+                          {trx.status}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )
             ) : (
-              <div className="space-y-4">
-                {transactions.map(trx => (
-                  <div key={trx.id} className="flex items-center justify-between p-3 hover:bg-slate-50 rounded-lg transition-colors border border-slate-50">
-                    <div>
-                      <p className="font-medium text-slate-900 text-sm">
-                        {trx.payer_name || 'Unknown Payer'}
-                      </p>
-                      <p className="text-xs text-slate-500 capitalize">{trx.network || 'Payment'}</p>
+              expenses.length === 0 ? (
+                <p className="text-slate-500 text-center py-4">No expenses recorded.</p>
+              ) : (
+                <div className="space-y-4">
+                  {expenses.map(exp => (
+                    <div key={exp.id} className="flex items-center justify-between p-3 hover:bg-slate-50 rounded-lg transition-colors border border-slate-50">
+                      <div>
+                        <p className="font-medium text-slate-900 text-sm line-clamp-1">
+                          {exp.description}
+                        </p>
+                        <p className="text-xs text-slate-500">{formatCategory(exp.category)}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-red-600 text-sm">-GH₵ {exp.amount.toLocaleString()}</p>
+                        <p className="text-xs text-slate-400">{new Date(exp.date).toLocaleDateString()}</p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="font-bold text-slate-900 text-sm">GH₵ {trx.total_amount}</p>
-                      <span className={`text-xs px-1.5 py-0.5 rounded-full capitalize ${trx.status === 'paid' || trx.status === 'completed' || trx.status === 'success' ? 'bg-green-100 text-green-700' :
-                        trx.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                          'bg-red-100 text-red-700'
-                        }`}>
-                        {trx.status}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )
             )}
           </div>
           <div className="mt-4 border-t border-slate-100 pt-2">
-            <Pagination
-              currentPage={currentPage}
-              totalItems={totalItems}
-              itemsPerPage={itemsPerPage}
-              totalPages={Math.ceil(totalItems / itemsPerPage)}
-              onPageChange={setCurrentPage}
-            />
+            {activeTab === 'payments' ? (
+              <Pagination
+                currentPage={currentPage}
+                totalItems={totalItems}
+                itemsPerPage={itemsPerPage}
+                totalPages={Math.ceil(totalItems / itemsPerPage)}
+                onPageChange={setCurrentPage}
+              />
+            ) : (
+              <Pagination
+                currentPage={expenseCurrentPage}
+                totalItems={expenseTotalItems}
+                itemsPerPage={itemsPerPage}
+                totalPages={Math.ceil(expenseTotalItems / itemsPerPage)}
+                onPageChange={setExpenseCurrentPage}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -267,6 +364,16 @@ export default function Finance() {
         onClose={() => setIsModalOpen(false)}
         onSave={handleSave}
       />
+      <ExpenseModal
+        isOpen={isExpenseModalOpen}
+        onClose={() => setIsExpenseModalOpen(false)}
+        onSave={handleSave}
+      />
+      <ReportModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+      />
     </div>
   );
 }
+
