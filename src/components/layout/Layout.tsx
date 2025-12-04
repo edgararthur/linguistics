@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import CustomCursor from '../shared/CustomCursor';
@@ -7,7 +7,7 @@ import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 
 type LayoutProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function Layout({ children }: LayoutProps) {
@@ -37,7 +37,7 @@ export default function Layout({ children }: LayoutProps) {
       {isHomePage && <CustomCursor />}
       <Navbar />
       <main className={`flex-grow ${isHomePage ? '' : 'pt-16'}`}>
-        {children}
+        {children || <Outlet />}
       </main>
       <Footer />
     </div>

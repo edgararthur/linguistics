@@ -12,47 +12,46 @@ serve(async (req) => {
   }
 
   try {
-    const { phoneNumber, message } = await req.json()
+    const { recipients, message } = await req.json()
 
-    if (!phoneNumber || !message) {
-      throw new Error('Missing phoneNumber or message')
+    if (!recipients || !message) {
+      throw new Error('Missing recipients or message')
     }
 
-    // SMSOnlineGH API Configuration
-    // You should set these in your Supabase project secrets
+    // Arkesel API Configuration
     const apiKey = Deno.env.get('SMS_API_KEY')
     const senderId = Deno.env.get('SMS_SENDER_ID') || 'LAG'
+    const apiUrl = 'https://sms.arkesel.com/sms/api'
 
     if (!apiKey) {
-      throw new Error('SMS_API_KEY not configured')
+      throw new Error('SMS_API_KEY not configured in Supabase secrets')
     }
 
-    // Construct the URL for SMSOnlineGH
-    // Note: This is a placeholder URL structure. Please verify with SMSOnlineGH documentation.
-    // Common format: https://api.smsonlinegh.com/v4/message/sms/send
-    const apiUrl = 'https://api.smsonlinegh.com/v4/message/sms/send'
-    
-    const payload = {
-      text: message,
-      type: 0,
-      sender: senderId,
-      destinations: [phoneNumber]
-    }
+    // Join recipients with comma
+    const to = Array.isArray(recipients) ? recipients.join(',') : recipients;
 
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify(payload)
+    // Call Arkesel API
+    // Arkesel uses GET request with query params for the basic API
+    const url = new URL(apiUrl)
+    url.searchParams.append('action', 'send-sms')
+    url.searchParams.append('api_key', apiKey)
+    url.searchParams.append('to', to)
+    url.searchParams.append('from', senderId)
+    url.searchParams.append('sms', message)
+
+    const response = await fetch(url.toString(), {
+      method: 'GET',
     })
 
     const data = await response.json()
 
-    if (!response.ok) {
-      throw new Error(`SMS Gateway Error: ${JSON.stringify(data)}`)
+    // Check Arkesel specific response codes
+    // success: { code: 'ok', ... } or { code: '100' ... }
+    const isSuccess = data.code === 'ok' || data.code === '100' || data.code === '101' || (data.status && data.status.toLowerCase() === 'success');
+
+    if (!isSuccess) {
+      console.error('Arkesel Error:', data);
+      throw new Error(data.message || 'Failed to send SMS via Arkesel')
     }
 
     return new Response(
@@ -63,12 +62,13 @@ serve(async (req) => {
       }
     )
 
-  } catch (error: unknown) {
+  } catch (error: any) {
+    console.error('Edge Function Error:', error);
     return new Response(
-      JSON.stringify({ error: (error as Error).message || 'An unknown error occurred' }),
+      JSON.stringify({ error: error.message || 'An unknown error occurred', success: false }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 400,
+        status: 400, // Use 400 for client errors, or 500 for server errors. 
       }
     )
   }

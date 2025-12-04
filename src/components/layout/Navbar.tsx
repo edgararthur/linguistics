@@ -12,12 +12,40 @@ export default function Navbar() {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			setIsScrolled(window.scrollY > 20);
+			if (window.scrollY > 50) {
+				setIsScrolled(true);
+			} else {
+				setIsScrolled(false);
+			}
 		};
 
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
+
+	const isTransparent = isHomePage && !isScrolled;
+
+	const navClasses = `fixed w-full z-50 transition-all duration-300 ${
+		isTransparent 
+			? 'bg-transparent' 
+			: 'bg-white shadow-lg'
+	}`;
+
+	const textClasses = isTransparent
+		? 'text-white hover:text-yellow-400'
+		: 'text-gray-500 hover:text-blue-500';
+	
+	const activeTextClasses = isTransparent
+		? 'text-yellow-400'
+		: 'text-blue-500';
+
+	const logoTextClasses = isTransparent
+		? 'text-white'
+		: 'text-gray-600';
+
+	const mobileButtonClasses = isTransparent
+		? 'text-white hover:text-yellow-400'
+		: 'text-gray-700 hover:text-blue-600';
 
 	const navItems = [
 		{ name: 'Home', href: '/' },
@@ -34,28 +62,8 @@ export default function Navbar() {
 		return location.pathname === path;
 	};
 
-	const navBackgroundClass = isHomePage && !isScrolled
-		? 'bg-transparent shadow-none'
-		: 'bg-white shadow-lg';
-
-	const textColorClass = isHomePage && !isScrolled
-		? 'text-white hover:text-yellow-400'
-		: 'text-gray-500 hover:text-blue-500';
-
-	const activeTextColorClass = isHomePage && !isScrolled
-		? 'text-yellow-400'
-		: 'text-blue-500';
-
-	const logoTextClass = isHomePage && !isScrolled
-		? 'text-white'
-		: 'text-gray-600';
-
-	const mobileMenuButtonClass = isHomePage && !isScrolled
-		? 'text-white hover:text-yellow-400'
-		: 'text-gray-700 hover:text-blue-600';
-
 	return (
-		<nav className={`${navBackgroundClass} fixed w-full z-50 transition-all duration-300`}>
+		<nav className={navClasses}>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between h-16">
 					<div className="flex items-center">
@@ -65,22 +73,21 @@ export default function Navbar() {
 								alt="lag-logo"
 								className="w-12 h-12 rounded-full object-cover"
 							/>
-							<span className={`ml-2 text-sm font-medium transition-colors ${logoTextClass}`}>
-								Linguistics Association of Ghana
-							</span>
+							<span className={`ml-2 text-sm font-medium transition-colors duration-300 ${logoTextClasses}`}>Linguistics Association of Ghana</span>
 						</Link>
 					</div>
-
+					
 					{/* Desktop Navigation */}
 					<div className="hidden md:flex items-center space-x-8">
 						{navItems.map((item) => (
 							<Link
 								key={item.name}
 								to={item.href}
-								className={`px-3 py-2 rounded-md text-xs font-normal transition-colors ${isActive(item.href)
-									? activeTextColorClass
-									: textColorClass
-									}`}
+								className={`px-3 py-2 rounded-md text-xs font-normal transition-colors ${
+									isActive(item.href)
+										? activeTextClasses
+										: textClasses
+								}`}
 							>
 								{item.name}
 							</Link>
@@ -91,7 +98,7 @@ export default function Navbar() {
 					<div className="md:hidden flex items-center">
 						<button
 							onClick={() => setIsMenuOpen(!isMenuOpen)}
-							className={`transition-colors ${mobileMenuButtonClass}`}
+							className={`transition-colors duration-300 ${mobileButtonClasses}`}
 						>
 							{isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
 						</button>
@@ -107,10 +114,11 @@ export default function Navbar() {
 							<Link
 								key={item.name}
 								to={item.href}
-								className={`block px-3 py-2 rounded-md text-xs font-medium ${isActive(item.href)
-									? 'text-blue-600 bg-blue-50'
-									: 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
-									}`}
+								className={`block px-3 py-2 rounded-md text-xs font-medium ${
+									isActive(item.href)
+										? 'text-blue-600 bg-blue-50'
+										: 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+								}`}
 								onClick={() => setIsMenuOpen(false)}
 							>
 								{item.name}
