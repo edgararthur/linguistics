@@ -134,6 +134,8 @@ const MemberCard = ({ member }: { member: Member }) => {
   );
 };
 
+import PayDuesModal from './PayDuesModal';
+
 const MembershipPage: React.FC = () => {
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -142,6 +144,7 @@ const MembershipPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [search, setSearch] = useState('');
+  const [isPayDuesModalOpen, setIsPayDuesModalOpen] = useState(false);
   const ITEMS_PER_PAGE = 12;
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -150,6 +153,7 @@ const MembershipPage: React.FC = () => {
   useEffect(() => {
     loadMembers();
   }, [page, search]);
+
 
   useEffect(() => {
     if (!loading && members.length > 0 && containerRef.current) {
@@ -174,7 +178,7 @@ const MembershipPage: React.FC = () => {
 
       return () => ctx.revert();
     }
-  }, [loading, members]); // Re-run when members change
+  }, [loading, members]);
 
   const loadMembers = async () => {
     try {
@@ -198,7 +202,7 @@ const MembershipPage: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    setPage(1); // Reset to first page on search
+    setPage(1);
     loadMembers();
   };
 
@@ -217,6 +221,13 @@ const MembershipPage: React.FC = () => {
               Meet the scholars, researchers, and students driving linguistic excellence in Ghana.
             </p>
 
+            <button
+              onClick={() => setIsPayDuesModalOpen(true)}
+              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-blue-900 bg-yellow-400 hover:bg-yellow-500 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 mb-8"
+            >
+              Pay Dues Online
+            </button>
+
             {/* Search Bar */}
             <form onSubmit={handleSearch} className="max-w-md mx-auto relative">
               <div className="relative">
@@ -233,6 +244,8 @@ const MembershipPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <PayDuesModal isOpen={isPayDuesModalOpen} onClose={() => setIsPayDuesModalOpen(false)} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 

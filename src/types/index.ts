@@ -1,3 +1,5 @@
+export type MembershipType = 'Professional' | 'Student' | 'Institutional';
+
 export interface Member {
     id: string;
     first_name: string;
@@ -7,7 +9,7 @@ export interface Member {
     phone?: string;
     affiliation: string;
     research_area?: string;
-    membership_type: string;
+    membership_type: MembershipType;
     status: 'active' | 'pending' | 'expired';
     dues_paid_until?: string | null;
     image_url?: string | null;

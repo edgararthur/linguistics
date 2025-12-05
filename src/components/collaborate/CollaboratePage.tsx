@@ -5,12 +5,6 @@ import gsap from '../../utils/gsapConfig';
 
 const collaborationTypes = [
   {
-    icon: Building,
-    title: "Institutional Partnerships",
-    description: "Partner with us for joint research projects, student exchanges, and academic collaborations.",
-    link: "/contact"
-  },
-  {
     icon: GraduationCap,
     title: "Research Collaboration",
     description: "Join our research initiatives in language documentation, sociolinguistics, and more.",
@@ -20,6 +14,12 @@ const collaborationTypes = [
     icon: Globe,
     title: "Community Projects",
     description: "Participate in our community-based language preservation and education programs.",
+    link: "/contact"
+  },
+  {
+    icon: Building,
+    title: "Services",
+    description: "Partner with us for joint research projects, student exchanges, and academic collaborations.",
     link: "/contact"
   }
 ];

@@ -14,20 +14,20 @@ const benefits = [
 
 const membershipTypes = [
   {
-    title: "Student",
-    price: "GH₵50",
-    description: "For current students in linguistics or related fields",
-    icon: User,
-    features: ["Digital access to publications", "Student events access", "Mentorship opportunities"],
-    color: "blue"
-  },
-  {
     title: "Professional",
     price: "GH₵200",
     description: "For linguistics professionals and researchers",
     icon: Users,
     features: ["Full publication access", "Voting rights", "Research collaboration opportunities"],
     color: "yellow"
+  },
+  {
+    title: "Student",
+    price: "GH₵50",
+    description: "For current students in linguistics or related fields",
+    icon: User,
+    features: ["Digital access to publications", "Student events access", "Mentorship opportunities"],
+    color: "blue"
   },
   {
     title: "Institutional",

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { memberService } from '../../services/memberService';
 import { Loader, CheckCircle, AlertCircle } from 'lucide-react';
-import { Member } from '../../types';
+import { Member, MembershipType } from '../../types';
 
 export default function MemberRegistrationForm() {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function MemberRegistrationForm() {
         phone: '',
         affiliation: '',
         research_area: '',
-        membership_type: 'Student'
+        membership_type: 'Student' as MembershipType
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -194,8 +194,8 @@ export default function MemberRegistrationForm() {
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                             >
-                                <option value="Student">Student (GH₵50/year)</option>
                                 <option value="Professional">Professional (GH₵200/year)</option>
+                                <option value="Student">Student (GH₵50/year)</option>
                                 <option value="Institutional">Institutional (GH₵1000/year)</option>
                             </select>
                         </div>

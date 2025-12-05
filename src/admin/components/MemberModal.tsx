@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Modal from '../../components/shared/Modal';
 import Button from '../../components/shared/Button';
-import { Member } from '../../types';
+import { Member, MembershipType } from '../../types';
 import { memberService } from '../../services/memberService';
 
 interface MemberModalProps {
@@ -20,9 +20,6 @@ export default function MemberModal({ isOpen, onClose, member, onSave }: MemberM
     research_area: '',
     membership_type: 'Professional',
     status: 'active',
-    title: '',
-    institution_type: '',
-    region: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,9 +36,6 @@ export default function MemberModal({ isOpen, onClose, member, onSave }: MemberM
         research_area: '',
         membership_type: 'Professional',
         status: 'active',
-        title: '',
-        institution_type: '',
-        region: '',
       });
     }
   }, [member, isOpen]);
@@ -149,11 +143,11 @@ export default function MemberModal({ isOpen, onClose, member, onSave }: MemberM
             <select
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2"
               value={formData.membership_type}
-              onChange={(e) => setFormData({ ...formData, membership_type: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, membership_type: e.target.value as MembershipType })}
             >
               <option value="Professional">Professional</option>
               <option value="Student">Student</option>
-              <option value="Associate">Associate</option>
+              <option value="Institutional">Institutional</option>
             </select>
           </div>
           <div>

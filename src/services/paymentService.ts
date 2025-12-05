@@ -15,6 +15,7 @@ export interface PaymentResponse {
     reference: string;
     status: string;
     totalAmount: number;
+    checkout_url?: string;
   };
   error?: string;
 }
